@@ -16,7 +16,7 @@
 		8452CBF524F4602200C814C2 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8452CBF424F4602200C814C2 /* NetworkManager.swift */; };
 		8452CBF824F461C700C814C2 /* STErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8452CBF724F461C700C814C2 /* STErrors.swift */; };
 		84F8B5CF24F4720F00BBC684 /* UIViewController + EXT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F8B5CE24F4720F00BBC684 /* UIViewController + EXT.swift */; };
-		84F8B5D124F4796100BBC684 /* LoginUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F8B5D024F4796100BBC684 /* LoginUrl.swift */; };
+		84F8B5D124F4796100BBC684 /* ShopTransactionsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F8B5D024F4796100BBC684 /* ShopTransactionsResponse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,7 +32,7 @@
 		8452CBF424F4602200C814C2 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		8452CBF724F461C700C814C2 /* STErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = STErrors.swift; sourceTree = "<group>"; };
 		84F8B5CE24F4720F00BBC684 /* UIViewController + EXT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController + EXT.swift"; sourceTree = "<group>"; };
-		84F8B5D024F4796100BBC684 /* LoginUrl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUrl.swift; sourceTree = "<group>"; };
+		84F8B5D024F4796100BBC684 /* ShopTransactionsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopTransactionsResponse.swift; sourceTree = "<group>"; };
 		9AD074773C0913FB9E773F94 /* Pods-Stock.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Stock.release.xcconfig"; path = "Target Support Files/Pods-Stock/Pods-Stock.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -87,7 +87,7 @@
 		8452CBEF24F45EE100C814C2 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				84F8B5D024F4796100BBC684 /* LoginUrl.swift */,
+				84F8B5D024F4796100BBC684 /* ShopTransactionsResponse.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -263,7 +263,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8452CBF524F4602200C814C2 /* NetworkManager.swift in Sources */,
-				84F8B5D124F4796100BBC684 /* LoginUrl.swift in Sources */,
+				84F8B5D124F4796100BBC684 /* ShopTransactionsResponse.swift in Sources */,
 				8452CBE024F45E0A00C814C2 /* ViewController.swift in Sources */,
 				84F8B5CF24F4720F00BBC684 /* UIViewController + EXT.swift in Sources */,
 				8452CBDC24F45E0A00C814C2 /* AppDelegate.swift in Sources */,

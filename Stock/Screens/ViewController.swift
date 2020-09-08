@@ -60,12 +60,17 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         configureUI()
         dismissKeyboard()
-        
-        NetworkManager.shared.authRequest { (Response, Token, TokenSecret) in
-            self.authToken       = Token
-            self.authTokenSecret = TokenSecret
-            self.responseURL     = Response
+        NetworkManager.shared.testRequestOne { (result) in
+            switch result{
+            case.success(let value):
+                print(value.results[0].price)
+            case .failure(let failure):
+                print(failure.localizedDescription)
+            }
+            
+            
         }
+      
     }
     
     
@@ -97,7 +102,6 @@ class ViewController: UIViewController {
 
         guard let text  = textField.text   else {return}
         print(text)
-        NetworkManager.shared.obtainingTokenCredentials(verifier: text, authToken: authToken)
         
         
     }
