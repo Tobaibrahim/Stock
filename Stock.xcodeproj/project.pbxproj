@@ -15,6 +15,10 @@
 		8452CBE824F45E0C00C814C2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8452CBE624F45E0C00C814C2 /* LaunchScreen.storyboard */; };
 		8452CBF524F4602200C814C2 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8452CBF424F4602200C814C2 /* NetworkManager.swift */; };
 		8452CBF824F461C700C814C2 /* STErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8452CBF724F461C700C814C2 /* STErrors.swift */; };
+		84D33852250972EF00796BE3 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D33851250972EF00796BE3 /* Login.swift */; };
+		84D338542509732500796BE3 /* Stocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D338532509732500796BE3 /* Stocks.swift */; };
+		84D338562509733600796BE3 /* EditStocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D338552509733600796BE3 /* EditStocks.swift */; };
+		84D338582509734500796BE3 /* Colours.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D338572509734500796BE3 /* Colours.swift */; };
 		84F8B5CF24F4720F00BBC684 /* UIViewController + EXT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F8B5CE24F4720F00BBC684 /* UIViewController + EXT.swift */; };
 		84F8B5D124F4796100BBC684 /* ShopTransactionsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F8B5D024F4796100BBC684 /* ShopTransactionsResponse.swift */; };
 /* End PBXBuildFile section */
@@ -31,6 +35,10 @@
 		8452CBE924F45E0C00C814C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8452CBF424F4602200C814C2 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		8452CBF724F461C700C814C2 /* STErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = STErrors.swift; sourceTree = "<group>"; };
+		84D33851250972EF00796BE3 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
+		84D338532509732500796BE3 /* Stocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stocks.swift; sourceTree = "<group>"; };
+		84D338552509733600796BE3 /* EditStocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStocks.swift; sourceTree = "<group>"; };
+		84D338572509734500796BE3 /* Colours.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colours.swift; sourceTree = "<group>"; };
 		84F8B5CE24F4720F00BBC684 /* UIViewController + EXT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController + EXT.swift"; sourceTree = "<group>"; };
 		84F8B5D024F4796100BBC684 /* ShopTransactionsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopTransactionsResponse.swift; sourceTree = "<group>"; };
 		9AD074773C0913FB9E773F94 /* Pods-Stock.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Stock.release.xcconfig"; path = "Target Support Files/Pods-Stock/Pods-Stock.release.xcconfig"; sourceTree = "<group>"; };
@@ -96,6 +104,9 @@
 			isa = PBXGroup;
 			children = (
 				8452CBDF24F45E0A00C814C2 /* ViewController.swift */,
+				84D33851250972EF00796BE3 /* Login.swift */,
+				84D338532509732500796BE3 /* Stocks.swift */,
+				84D338552509733600796BE3 /* EditStocks.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -127,6 +138,7 @@
 			children = (
 				8452CBF724F461C700C814C2 /* STErrors.swift */,
 				84F8B5CE24F4720F00BBC684 /* UIViewController + EXT.swift */,
+				84D338572509734500796BE3 /* Colours.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -264,11 +276,15 @@
 			files = (
 				8452CBF524F4602200C814C2 /* NetworkManager.swift in Sources */,
 				84F8B5D124F4796100BBC684 /* ShopTransactionsResponse.swift in Sources */,
+				84D338582509734500796BE3 /* Colours.swift in Sources */,
+				84D338562509733600796BE3 /* EditStocks.swift in Sources */,
 				8452CBE024F45E0A00C814C2 /* ViewController.swift in Sources */,
 				84F8B5CF24F4720F00BBC684 /* UIViewController + EXT.swift in Sources */,
+				84D338542509732500796BE3 /* Stocks.swift in Sources */,
 				8452CBDC24F45E0A00C814C2 /* AppDelegate.swift in Sources */,
 				8452CBDE24F45E0A00C814C2 /* SceneDelegate.swift in Sources */,
 				8452CBF824F461C700C814C2 /* STErrors.swift in Sources */,
+				84D33852250972EF00796BE3 /* Login.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

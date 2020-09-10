@@ -24,10 +24,6 @@ class NetworkManager {
     
     //    oauth_token=64b53208101e4aeb4e840d0f1eccca&oauth_token_secret=8fb89d2ce8
     
-    
-    
-    
-    
     func testRequestOne (completed:@escaping(Result<ShopTransactionsResponse,STErrors>) -> Void) {
         
         
@@ -37,9 +33,7 @@ class NetworkManager {
         let urlString = baseURL + "shops/TOCLO/transactions"
         
         var req = URLRequest(url: URL(string:urlString)!)
-        
-        //        let paras = ["status": ""]
-        
+                
         req.oAuthSign(method: "GET", consumerCredentials: cc, userCredentials: uc)
     
         

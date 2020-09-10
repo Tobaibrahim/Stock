@@ -11,7 +11,6 @@ import Foundation
 
 struct ShopTransactionsResponse:Decodable {
     
-    
     let count: Int
     let results: [ShopTransactions]
     
@@ -20,17 +19,19 @@ struct ShopTransactionsResponse:Decodable {
 
 struct ShopTransactions:Decodable {
     
+    let title:String
     let price:String
-//    let variations: [Value]
-//    let propertyValues:
+    let quantity:Int
+    let variations: [Value]
+    let tags:[String]
+    let paidTsz:Int
+    let receiptId: Int
+    
 }
 
 
-//struct Value: Decodable {
-//
-//    let formattedValue:[String]
-//}
-//
-//struct <#name#> {
-//    <#fields#>
-//}
+struct Value: Decodable {
+    
+    let formattedValue:String
+}
+
