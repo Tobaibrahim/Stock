@@ -20,9 +20,9 @@ class ViewController: UIViewController {
     
     var dataResponse: ShopTransactionsResponse! {
         didSet {
-            getTshirts()
-            getAccessories()
             print("DATA SET")
+//            getTshirts()
+            getAccessories()
         }
         
     }
@@ -123,10 +123,10 @@ class ViewController: UIViewController {
         let tote          = "Tote"
         let path          =  dataResponse.results[0].title
         let quantityPath  =  dataResponse.results[0].quantity
-
+        
         //                    caps
         
-       
+        
         
         if path.contains(caps){
             print("This is a cap purchase")
@@ -135,24 +135,24 @@ class ViewController: UIViewController {
         }
         
         //                    masks
-
+        
         if path.contains(masks) {
             print("This is a mask purchase")
-
+            
         }
         
         //                    beanie
-
+        
         if path.contains(beanie) {
             print("This is a beanie purchase")
-
+            
         }
         
         //                    tote
-
+        
         if path.contains(tote) {
             print("This is a tote purchase")
-
+            
         }
     }
     
@@ -173,82 +173,96 @@ class ViewController: UIViewController {
         let shortSleeveMedium = "Short Sleeve -Medium"
         let shortSleeveLarge  = "Short Sleeve - Large"
         
-        let sizePath          = dataResponse.results[0].variations[1].formattedValue
-        let colourPath        = dataResponse.results[0].variations[0].formattedValue
+        guard let sizePath    = dataResponse.results[0].variations[0].formattedValue else {return}
+        guard let colourPath  = dataResponse.results[0].variations[1].formattedValue else {return}
         let quantityPath      = dataResponse.results[0].quantity
         let pricePath         = dataResponse.results[0].price
         let recieptPath       = dataResponse.results[0].receiptId
-
-        
-        //                    shortSleeveBlackSmall
+            
+            
+            //                    shortSleeveBlackSmall
         if sizePath.contains(shortSleeveSmall) && colourPath.contains(black) {
-            print("This shirt is a shortSleeveSmall black")
-
-            // Update ui and database and set things such as labels and bags value here too
-//            label.count  = label.count - quantityPath
-            // use the reciept ID to check if the order isnt the same and do the function
+                print("This shirt is a shortSleeveSmall black")
+                
+                // Update ui and database and set things such as labels and bags value here too
+                //            label.count  = label.count - quantityPath
+                // use the reciept ID to check if the order isnt the same and do the function
+            }
+            
+            //                    shortSleeveBlackMedium
+            if sizePath.contains(shortSleeveMedium) && colourPath.contains(black)  {
+                print("This shirt is a shortSleeveMedium")
+            }
+            
+            //                    shortSleeveBlackLarge
+            if sizePath.contains(shortSleeveLarge) && colourPath.contains(black) {
+                print("This shirt is a shortSleeveLarge black")
+                
+            }
+            
+            //                    shortSleeveWhiteSmall
+            if sizePath.contains(shortSleeveSmall) && colourPath.contains(white) {
+                print("This shirt is a shortSleeveSmall white")
+                
+            }
+            //                    shortSleeveWhiteMedium
+            if sizePath.contains(shortSleeveMedium) && colourPath.contains(white) {
+                print("This shirt is a shortSleeveMedium white")
+                
+            }
+            //                    shortSleeveWhiteLarge
+            if sizePath.contains(shortSleeveLarge) && colourPath.contains(white) {
+                print("This shirt is a shortSleeveLarge white")
+                
+            }
+            
+            //                    longSleeveBlackSmall
+            if sizePath.contains(longSleeveSmall) && colourPath.contains(black) {
+                print("This shirt is a longSleeveSmall black")
+                
+                
+            }
+            
+            //                    longSleeveBlackMedium
+            if sizePath.contains(longSleeveMedium) && colourPath.contains(black) {
+                print("This shirt is a longSleeveMedium black")
+                
+            }
+            //                    longSleeveBlackLarge
+            if sizePath.contains(longSleeveLarge) && colourPath.contains(black) {
+                print("This shirt is a longSleeveLarge black")
+                
+            }
+            
+            
+            //                    longSleeveWhiteSmall
+            if sizePath.contains(longSleeveSmall) && colourPath.contains(white) {
+                print("This shirt is a longSleeveSmall white")
+                
+            }
+            //                    longSleeveWhiteMedium
+            if sizePath.contains(longSleeveMedium) && colourPath.contains(white) {
+                print("This shirt is a longSleeveMedium white")
+                
+            }
+            //                    longSleeveWhiteLarge
+            if sizePath.contains(longSleeveLarge) && colourPath.contains(white) {
+                print("This shirt is a longSleeveLarge white")
+                
+            
         }
         
-        //                    shortSleeveBlackMedium
-        if sizePath.contains(shortSleeveMedium) && colourPath.contains(black) {
-            print("This shirt is a shortSleeveMedium")
-        }
         
-        //                    shortSleeveBlackLarge
-        if sizePath.contains(shortSleeveLarge) && colourPath.contains(black) {
-            print("This shirt is a shortSleeveLarge black")
-
-        }
-        //                    shortSleeveWhiteSmall
-        if sizePath.contains(shortSleeveSmall) && colourPath.contains(white) {
-            print("This shirt is a shortSleeveSmall white")
-
-        }
-        //                    shortSleeveWhiteMedium
-        if sizePath.contains(shortSleeveMedium) && colourPath.contains(white) {
-            print("This shirt is a shortSleeveMedium white")
-
-        }
-        //                    shortSleeveWhiteLarge
-        if sizePath.contains(shortSleeveLarge) && colourPath.contains(white) {
-            print("This shirt is a shortSleeveLarge white")
-
-        }
         
-        //                    longSleeveBlackSmall
-        if sizePath.contains(longSleeveSmall) && colourPath.contains(black) {
-            print("This shirt is a longSleeveSmall black")
-
-
-        }
-        //                    longSleeveBlackMedium
-        if sizePath.contains(longSleeveMedium) && colourPath.contains(black) {
-            print("This shirt is a longSleeveMedium black")
-
-        }
         
-        //                    longSleeveBlackLarge
-        if sizePath.contains(longSleeveLarge) && colourPath.contains(black) {
-            print("This shirt is a longSleeveLarge black")
-
-        }
         
-        //                    longSleeveWhiteSmall
-        if sizePath.contains(longSleeveSmall) && colourPath.contains(white) {
-            print("This shirt is a longSleeveSmall white")
-
-        }
         
-        //                    longSleeveWhiteMedium
-        if sizePath.contains(longSleeveMedium) && colourPath.contains(white) {
-            print("This shirt is a longSleeveMedium white")
-
-        }
-        //                    longSleeveWhiteLarge
-        if sizePath.contains(longSleeveLarge) && colourPath.contains(white) {
-            print("This shirt is a longSleeveLarge white")
-
-        }
+        
+        
+        
+        
+        
+        
         
     }
     

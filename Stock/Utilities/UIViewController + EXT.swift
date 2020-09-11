@@ -11,6 +11,19 @@ import SafariServices
 
 
 extension UIViewController {
+    
+    
+    
+    func CustomAlertOnMainThread(title:String,message:String,buttonTitle:String) {
+        
+        DispatchQueue.main.async {
+            let alertVC = CustomAlert(alertTitle: title, message: message, buttonTitle: buttonTitle)
+            alertVC.modalPresentationStyle = .overFullScreen
+            alertVC.modalTransitionStyle   = .crossDissolve
+            self.present(alertVC, animated: true)
+        }
+        
+    }
 
 func presentSafariVC(with url:URL) {
       

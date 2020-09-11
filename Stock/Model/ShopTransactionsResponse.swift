@@ -32,6 +32,6 @@ struct ShopTransactions:Decodable {
 
 struct Value: Decodable {
     
-    let formattedValue:String
+    let formattedValue:String?
 }
 
