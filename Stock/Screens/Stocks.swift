@@ -80,7 +80,7 @@ class Stocks:UIViewController {
     func configureUI() {
         
         view.addSubview(searchBar)
-        
+        createObservers()
         view.backgroundColor   = Colours.appWhite
         navigationItem.hidesBackButton     = true
         
@@ -100,11 +100,12 @@ class Stocks:UIViewController {
         navigationItem.leftBarButtonItem  = menuButton
     }
     
-
     
     @objc func addButtonPressed() {
         print("DEBUG:Menu button pressed")
     }
+    
+    
     
     func getData() {
            NetworkManager.shared.testRequestOne { (result) in
@@ -257,6 +258,17 @@ class Stocks:UIViewController {
                    print("This shirt is a longSleeveLarge white")
                    
                }
+        
+    }
+    
+    
+    func createObservers() {
+        let name = NSNotification.Name(notificationKeys.reloadCollectionView)
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadCollectionView), name: name, object: nil)
+    }
+    
+    @objc func reloadCollectionView() {
+        collectionView.reloadData()
         
     }
     

@@ -11,6 +11,6 @@ import UIKit
 
 
 enum SFSymbols {
-static let menuButton      = UIImage(systemName: "text.justify")
-
+    static let menuButton      = UIImage(systemName: "text.justify")
+    
 }

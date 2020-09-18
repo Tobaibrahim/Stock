@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import OAuthSwift
+import OhhAuth
 
 class ViewController: UIViewController {
     
