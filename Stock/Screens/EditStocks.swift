@@ -16,7 +16,8 @@ class EditStocks:UIViewController {
     
     var backgroundColour:UIColor!
     var itemImageName:String!
-    var itemName:String!
+    var itemPathName:String! // name of the item path to firbase child value
+    var itemName:String! // name of the item text
     
     let itemImage      = CustomImageView(frame: .zero)
     let itemNameLabel  = CustomTitleLabel(textAlignment: .center, fontsSize: 24)
@@ -34,9 +35,9 @@ class EditStocks:UIViewController {
     let plusButton     = CustomButton(backgroundColor: Colours.loginButton, title: "+", size: 10)
     let minusButton    = CustomButton(backgroundColor: Colours.loginButton, title: "-", size: 10)
     let saveButton     = CustomButton(backgroundColor: Colours.loginButton, title: "Save", size: 10)
-    var smallLabelValue       = 0
-    var mediumLabelValue      = 0
-    var largeLabelValue       = 0
+    var smallLabelValue   :Int!
+    var mediumLabelValue  :Int!
+    var largeLabelValue   :Int!
     
     var isAccessory     = false
 
@@ -199,9 +200,9 @@ class EditStocks:UIViewController {
     
     
     @objc func smallLabelTapped () {
-        isSmallTapped = true
+        isSmallTapped  = true
         isMediumTapped = false
-        isLargeTapped = false
+        isLargeTapped  = false
         itemValueLabelSmall.textColor = .systemRed
         itemValueLabelLarge.textColor = .black
         itemValueLabelMedium.textColor = .black
@@ -209,9 +210,9 @@ class EditStocks:UIViewController {
     }
     
     @objc func mediumLabelTapped () {
-        isLargeTapped = false
+        isLargeTapped  = false
         isMediumTapped = true
-        isSmallTapped = false
+        isSmallTapped  = false
         itemValueLabelMedium.textColor = .systemRed
         itemValueLabelLarge.textColor = .black
         itemValueLabelSmall.textColor = .black
@@ -220,9 +221,9 @@ class EditStocks:UIViewController {
     }
     
     @objc func largeLabelTapped () {
-        isLargeTapped = true
+        isLargeTapped  = true
         isMediumTapped = false
-        isSmallTapped = false
+        isSmallTapped  = false
         itemValueLabelLarge.textColor = .systemRed
         itemValueLabelMedium.textColor = .black
         itemValueLabelSmall.textColor = .black
@@ -230,6 +231,7 @@ class EditStocks:UIViewController {
 
     }
     
+
     
     @objc func plusButtonPressed () {
     print("plus button pressed")
@@ -259,12 +261,18 @@ class EditStocks:UIViewController {
     @objc func saveButtonPressed () {
         print("save button pressed")
         
-        if isLargeTapped || isMediumTapped || isLargeTapped {
-            UserService.shared.updateStockQuantity(shirtName: itemName, shirtValue:String(smallLabelValue))
+        if isLargeTapped == true || isMediumTapped == true  || isLargeTapped == true  {
+            UserService.shared.updateShirtStockQuantity(Name: itemPathName, small: smallLabelValue, medium: mediumLabelValue, large: largeLabelValue)
             
             let name = Notification.Name(rawValue: notificationKeys.reloadCollectionView)
             NotificationCenter.default.post(name: name, object: nil)
-            
+        }
+        
+        
+        if isAccessory && isSmallTapped {
+            UserService.shared.updateAccessoryStockQuantity(Name: itemPathName, value: smallLabelValue)
+            let name = Notification.Name(rawValue: notificationKeys.reloadCollectionView)
+            NotificationCenter.default.post(name: name, object: nil)
         }
         
         

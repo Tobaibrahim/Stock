@@ -46,6 +46,9 @@ class StockCell: UICollectionViewCell {
         let padding:CGFloat = 15
         contentView.backgroundColor = .systemRed
         contentView.layer.cornerRadius = 15
+        avatarImageView.image = UIImage(named: "StockLogo")
+        
+        
         NSLayoutConstraint.activate(
             [avatarImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: padding),
              avatarImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
