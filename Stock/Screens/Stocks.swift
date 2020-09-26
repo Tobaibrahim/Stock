@@ -13,12 +13,15 @@ import Firebase
 
 class Stocks:UIViewController {
     
+    
     //MARK: - Properties
     
     
     var dataResponse: ShopTransactionsResponse! {
         didSet {
             print("DATA SET")
+//            getTshirts()
+
         }
         
     }
@@ -26,10 +29,9 @@ class Stocks:UIViewController {
     var stockDataResponse: StockQuantity! {
         didSet {
             print("DATA SET")
-            collectionView.delegate   = self
             collectionView.dataSource = self
             collectionView.reloadData()
-            print(stockDataResponse!)
+//            print(stockDataResponse!)
         }
         
     }
@@ -51,16 +53,14 @@ class Stocks:UIViewController {
     var collectionView: UICollectionView!
     var isDifferentOrder:Bool!
     var recieptID = Int()
-    let shirtImages  = ["blacktshirt","whitetshirt","longsleeveblackshirt","longsleevewhiteshirt","beanie","hat","mask","totebag","Postage Bag",
-                        "Mask Postage Bag","Clear Bag","Customs Form","Customs Form Tracked","Thermal Labels"]
+    let shirtImages  = ["blacktshirt","whitetshirt","longsleeveblackshirt","longsleevewhiteshirt","beanie","hat","mask","totebag","Postage Bag","Mask Postage Bag","Clear Bag","Customs Form","Customs Form Tracked","Thermal Labels"]
     
-    let shirtNames   = ["Short Sleeve - Black","Short Sleeve - White","Long Sleeve - Black","Long Sleeve - White","Beanie","Cap","Mask","Totebag",
-                        "Postage Bag","Mask Postage Bag","Clear Bag","Customs Form","Customs Form Tracked","Thermal Labels"
-        
-    ]
+    let shirtNames   = ["Short Sleeve - Black","Short Sleeve - White","Long Sleeve - Black","Long Sleeve - White","Beanie","Cap","Mask","Totebag","Postage Bag","Mask Postage Bag","Clear Bag","Customs Form","Customs Form Tracked","Thermal Labels"]
+    
     let coloursArray  = [Colours.lime,Colours.loginBackground,Colours.loginButton,Colours.orange,Colours.peach,Colours.pink,Colours.teal,Colours.yellow]
     var stockNameArrayKeys = [String]()
-    
+    var isAccessory   = false
+ 
     
     //MARK: - LifeCycle
     
@@ -95,9 +95,11 @@ class Stocks:UIViewController {
         collectionView.backgroundColor = .systemBackground
         collectionView.register(StockCell.self, forCellWithReuseIdentifier:StockCell.reuseID)
         
-        let menuButton          = UIBarButtonItem(image: SFSymbols.menuButton, style: .done, target: self, action:#selector(addButtonPressed))
+        let menuButton          = UIBarButtonItem(image: SFSymbols.menuButton, style: .done, target: self, action:#selector(Logout))
         menuButton.tintColor    = Colours.loginButton
         navigationItem.leftBarButtonItem  = menuButton
+        collectionView.delegate   = self
+
     }
     
     
@@ -282,6 +284,19 @@ class Stocks:UIViewController {
     }
     
     
+    @objc func Logout() {
+
+        guard let window = UIApplication.shared.windows.first(where: {$0.isKeyWindow}) else {
+            return
+        }
+        guard let tab = window.rootViewController as? MainNavigationController else {return}
+        tab.logUserOut()
+        // we access the mainttabbarcontroller and run the function here
+        self.dismiss(animated: false, completion: nil)
+
+
+    }
+    
 }
 
 
@@ -289,104 +304,121 @@ extension Stocks:UICollectionViewDataSource,UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return  shirtNames.count
+        return shirtNames.count
         
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
+        let sizes = ["S","M","L"]
         let cell  = collectionView.dequeueReusableCell(withReuseIdentifier: StockCell.reuseID, for: indexPath) as! StockCell
-        
         cell.contentView.backgroundColor = coloursArray.randomElement()
+        
         cell.avatarImageView.image = UIImage(named: shirtImages[indexPath.row])
         cell.titleLabel.text  = shirtNames[indexPath.row]
-        cell.smallLabel.text  = "S"
-        cell.mediumLabel.text = "M"
-        cell.LargeLabel.text  = "L"
+        
+//        cell.smallLabel.text  = sizes[0]
+//        cell.mediumLabel.text = sizes[1]
+//        cell.LargeLabel.text  = sizes[2]
+        
+//        if isAccessory {
+//            cell.smallLabel.isHidden  = true
+//            cell.LargeLabel.isHidden  = true
+//            cell.mediumLabel.isHidden     = true
+//        }
         
         //        longSleeveBlack,longSleeveWhite,shortSleeveWhite,shortSleeveBlack
         
         convertShirtValues { (longSleeveBlack, longSleeveWhite, shortSleeveWhite, shortSleeveBlack) in
             switch indexPath.row {
-            case 0:
+                
+                case 0:
                 //ShortSleeveBlack
-                cell.smallLabelValue.text = String(shortSleeveBlack[1])
+                cell.smallLabelValue.text  = String(shortSleeveBlack[1])
                 cell.mediumLabelValue.text = String(shortSleeveBlack[2])
                 cell.LargeLabelValue.text  = String(shortSleeveBlack[0])
+                cell.smallLabel.text  = sizes[0]
+                cell.mediumLabel.text = sizes[1]
+                cell.LargeLabel.text  = sizes[2]
                 
             case 1:
                 //ShortSleeveWhite
-                cell.smallLabelValue.text = String(shortSleeveWhite[1])
+                cell.smallLabelValue.text  = String(shortSleeveWhite[1])
                 cell.mediumLabelValue.text = String(shortSleeveWhite[2])
                 cell.LargeLabelValue.text  = String(shortSleeveWhite[0])
+                cell.smallLabel.text  = sizes[0]
+                cell.mediumLabel.text = sizes[1]
+                cell.LargeLabel.text  = sizes[2]
             case 2:
                 //LongSleeveBlack
-                cell.smallLabelValue.text = String(longSleeveBlack[1])
+                cell.smallLabelValue.text  = String(longSleeveBlack[1])
                 cell.mediumLabelValue.text = String(longSleeveBlack[2])
                 cell.LargeLabelValue.text  = String(longSleeveBlack[0])
+                cell.smallLabel.text  = sizes[0]
+                cell.mediumLabel.text = sizes[1]
+                cell.LargeLabel.text  = sizes[2]
                 
             case 3:
                 
                 //LongSleeveWhite
-                cell.smallLabelValue.text = String(longSleeveWhite[1])
+                cell.smallLabelValue.text  = String(longSleeveWhite[1])
                 cell.mediumLabelValue.text = String(longSleeveWhite[2])
                 cell.LargeLabelValue.text  = String(longSleeveWhite[0])
+                cell.smallLabel.text  = sizes[0]
+                cell.mediumLabel.text = sizes[1]
+                cell.LargeLabel.text  = sizes[2]
                 
                 
             case 4:
-                
                 //Beanie
+                isAccessory = true
                 cell.mediumLabelValue.text = String(stockDataResponse.Beanie)
                 break
                 
                 
             case 5:
-                
                 //Cap
+                isAccessory = true
+                
                 cell.mediumLabelValue.text = String(stockDataResponse.Cap)
                 
             case 6:
-                
                 //Mask
+                isAccessory = true
                 cell.mediumLabelValue.text = String(stockDataResponse.Mask)
                 
             case 7:
-                
                 //Tote
+                isAccessory = true
                 cell.mediumLabelValue.text = String(stockDataResponse.Tote)
-                
-                
                 
             case 8:
                 //PostageBag
+                isAccessory = true
                 cell.mediumLabelValue.text = String(stockDataResponse.PostalBag)
 
-                
-                
             case 9:
                 //MaskPostageBag
+                isAccessory = true
                 cell.mediumLabelValue.text = String(stockDataResponse.MaskPostalBag)
 
-                
-                
             case 10:
                 //ClearBag
+                isAccessory = true
                 cell.mediumLabelValue.text = String(stockDataResponse.ClearBag)
-
                 
             case 11:
                 //CustomsForm
+                isAccessory = true
                 cell.mediumLabelValue.text = String(stockDataResponse.CustomsForm)
 
-                
             case 12:
                 //CustomsFormTracked
+                isAccessory = true
                 cell.mediumLabelValue.text = String(stockDataResponse.CustomsFormTracked)
 
-                
-                
             case 13:
                 //ThermalLabel
+                isAccessory = true
                 cell.mediumLabelValue.text = String(stockDataResponse.ThermalLabel)
 
                 
@@ -467,7 +499,7 @@ extension Stocks:UICollectionViewDataSource,UICollectionViewDelegate {
                 
             case 9:
                 //MaskPostageBag
-                destVC.itemPathName     = stockNameArrayKeys[5]
+                destVC.itemPathName     = stockNameArrayKeys[6]
                 destVC.smallLabelValue  = stockDataResponse.MaskPostalBag
                 destVC.isAccessory      = true
                 
@@ -524,20 +556,6 @@ extension Stocks: UISearchBarDelegate {
 
 
 
-
-
-//    @objc func Logout() {
-//
-//        guard let window = UIApplication.shared.windows.first(where: {$0.isKeyWindow}) else {
-//            return
-//        }
-//        guard let tab = window.rootViewController as? MainNavigationController else {return}
-//        tab.logUserOut()
-//        // we access the mainttabbarcontroller and run the function here
-//        self.dismiss(animated: false, completion: nil)
-//
-//
-//    }
 
 
 

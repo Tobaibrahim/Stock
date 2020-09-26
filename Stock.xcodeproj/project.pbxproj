@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		28CC41728E5B67974A34B8C3 /* Pods_Stock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 179AD254D2160EF6FAF289A3 /* Pods_Stock.framework */; };
+		840BAE75251F8DCF00C51E32 /* prepareForReuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840BAE74251F8DCF00C51E32 /* prepareForReuse.swift */; };
 		841C1C3D2514DAFA003F684A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 841C1C3C2514DAFA003F684A /* GoogleService-Info.plist */; };
 		8452CBDC24F45E0A00C814C2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8452CBDB24F45E0A00C814C2 /* AppDelegate.swift */; };
 		8452CBDE24F45E0A00C814C2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8452CBDD24F45E0A00C814C2 /* SceneDelegate.swift */; };
@@ -42,6 +43,7 @@
 /* Begin PBXFileReference section */
 		179AD254D2160EF6FAF289A3 /* Pods_Stock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Stock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		19CA77A590EBE9DF31D4DC22 /* Pods-Stock.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Stock.debug.xcconfig"; path = "Target Support Files/Pods-Stock/Pods-Stock.debug.xcconfig"; sourceTree = "<group>"; };
+		840BAE74251F8DCF00C51E32 /* prepareForReuse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = prepareForReuse.swift; sourceTree = "<group>"; };
 		841C1C3C2514DAFA003F684A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8452CBD824F45E0A00C814C2 /* Stock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8452CBDB24F45E0A00C814C2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -167,6 +169,7 @@
 			isa = PBXGroup;
 			children = (
 				84D33859250A748400796BE3 /* TextField.swift */,
+				840BAE74251F8DCF00C51E32 /* prepareForReuse.swift */,
 				84D33866250A89DC00796BE3 /* CustomBodyLabel.swift */,
 				84D33865250A89DC00796BE3 /* CustomTitleLabel.swift */,
 				84D33863250A887200796BE3 /* CustomAlert.swift */,
@@ -352,6 +355,7 @@
 				8452CBDE24F45E0A00C814C2 /* SceneDelegate.swift in Sources */,
 				8452CBF824F461C700C814C2 /* STErrors.swift in Sources */,
 				84D3385C250A74D600796BE3 /* Button.swift in Sources */,
+				840BAE75251F8DCF00C51E32 /* prepareForReuse.swift in Sources */,
 				84D33867250A89DC00796BE3 /* CustomTitleLabel.swift in Sources */,
 				84D33875250AD6A000796BE3 /* UserService.swift in Sources */,
 				84D33852250972EF00796BE3 /* Login.swift in Sources */,

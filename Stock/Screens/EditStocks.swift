@@ -16,7 +16,7 @@ class EditStocks:UIViewController {
     
     var backgroundColour:UIColor!
     var itemImageName:String!
-    var itemPathName:String! // name of the item path to firbase child value
+    var itemPathName:String! // name of the item path to firebase child value
     var itemName:String! // name of the item text
     
     let itemImage      = CustomImageView(frame: .zero)
@@ -35,9 +35,9 @@ class EditStocks:UIViewController {
     let plusButton     = CustomButton(backgroundColor: Colours.loginButton, title: "+", size: 10)
     let minusButton    = CustomButton(backgroundColor: Colours.loginButton, title: "-", size: 10)
     let saveButton     = CustomButton(backgroundColor: Colours.loginButton, title: "Save", size: 10)
-    var smallLabelValue   :Int!
-    var mediumLabelValue  :Int!
-    var largeLabelValue   :Int!
+    var smallLabelValue  = Int()
+    var mediumLabelValue = Int()
+    var largeLabelValue  = Int()
     
     var isAccessory     = false
 
@@ -123,6 +123,7 @@ class EditStocks:UIViewController {
     
     
     func configureUI() {
+        print("DEBUG: ITEM PATH NAME = \(itemPathName)")
         view.backgroundColor = backgroundColour ?? Colours.orange
         navigationController?.navigationBar.isHidden = true
         view.addSubview(itemImage)
@@ -235,16 +236,16 @@ class EditStocks:UIViewController {
     
     @objc func plusButtonPressed () {
     print("plus button pressed")
-        if isSmallTapped == true {
+        if isSmallTapped {
             smallLabelValue += 1
             itemValueLabelSmall.text = String(smallLabelValue)
         }
         
-        if isMediumTapped == true {
+        if isMediumTapped {
             mediumLabelValue += 1
             itemValueLabelMedium.text = String(mediumLabelValue)
         }
-        if isLargeTapped == true {
+        if isLargeTapped {
             largeLabelValue += 1
             itemValueLabelLarge.text = String(largeLabelValue)
         }
@@ -253,15 +254,26 @@ class EditStocks:UIViewController {
     
     @objc func minusButtonPressed () {
     print("minus button pressed")
-        smallLabelValue -= 1
-        itemValueLabelSmall.text = String(smallLabelValue)
+        if isSmallTapped {
+            smallLabelValue -= 1
+            itemValueLabelSmall.text = String(smallLabelValue)
+        }
+        
+        if isMediumTapped {
+            mediumLabelValue -= 1
+            itemValueLabelMedium.text = String(mediumLabelValue)
+        }
+        if isLargeTapped  {
+            largeLabelValue -= 1
+            itemValueLabelLarge.text = String(largeLabelValue)
+        }
     }
     
     
     @objc func saveButtonPressed () {
         print("save button pressed")
         
-        if isLargeTapped == true || isMediumTapped == true  || isLargeTapped == true  {
+        if isLargeTapped || isMediumTapped || isSmallTapped{
             UserService.shared.updateShirtStockQuantity(Name: itemPathName, small: smallLabelValue, medium: mediumLabelValue, large: largeLabelValue)
             
             let name = Notification.Name(rawValue: notificationKeys.reloadCollectionView)

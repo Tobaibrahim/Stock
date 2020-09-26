@@ -30,8 +30,8 @@ struct UserService {
     
     func updateShirtStockQuantity(Name:String,small:Int,medium:Int,large:Int) {
         
-    let values = ["medium":medium,"large":large,"small":large]
-        ref.child("shirts").child(Name).updateChildValues(values)
+    let values = ["medium":medium,"large":large,"small":small]
+        ref.child("shirts").child(Name).setValue(values)
     }
     
     func updateAccessoryStockQuantity(Name:String,value:Int) {

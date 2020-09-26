@@ -21,6 +21,16 @@ class StockCell: UICollectionViewCell {
     let mediumLabelValue = CustomTitleLabel(textAlignment: .center, fontsSize: 20)
     let LargeLabelValue  = CustomTitleLabel(textAlignment: .right, fontsSize: 20)
     
+    override func prepareForReuse() {
+        avatarImageView.image = nil
+        titleLabel.text       = nil
+        smallLabel.text       = nil
+        mediumLabel.text      = nil
+        LargeLabel.text       = nil
+        smallLabelValue.text  = nil
+        mediumLabelValue.text = nil
+        LargeLabelValue.text  = nil
+    }
     
     override init(frame: CGRect) {
         super.init(frame:frame)
@@ -34,20 +44,18 @@ class StockCell: UICollectionViewCell {
     
     
     private func configure(){
-        addSubview(avatarImageView)
-        addSubview(titleLabel)
-        addSubview(smallLabel)
-        addSubview(mediumLabel)
-        addSubview(LargeLabel)
-        addSubview(smallLabelValue)
-        addSubview(mediumLabelValue)
-        addSubview(LargeLabelValue)
+        let views = [avatarImageView,titleLabel,smallLabel,mediumLabel,LargeLabel,smallLabelValue,mediumLabelValue,LargeLabelValue]
+        for views in views {
+            addSubview(views)
+        }
         
         let padding:CGFloat = 15
         contentView.backgroundColor = .systemRed
         contentView.layer.cornerRadius = 15
         avatarImageView.image = UIImage(named: "StockLogo")
-        
+//        smallLabel.text  = "S"
+//        mediumLabel.text = "M"
+//        LargeLabel.text  = "L"
         
         NSLayoutConstraint.activate(
             [avatarImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: padding),
