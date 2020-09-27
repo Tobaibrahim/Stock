@@ -20,8 +20,12 @@ class Stocks:UIViewController {
     var dataResponse: ShopTransactionsResponse! {
         didSet {
             print("DATA SET")
-//            getTshirts()
-
+            updateStocks()
+            //            authorizeSale()
+            guard let safeResponse = dataResponse.map({$0.results[0...11].map{$0.transactionId}}) else {return} // get transaction value from request
+            requestTransactionValues = safeResponse // get transaction value from request
+            //            getAccessories()
+            
         }
         
     }
@@ -31,7 +35,7 @@ class Stocks:UIViewController {
             print("DATA SET")
             collectionView.dataSource = self
             collectionView.reloadData()
-//            print(stockDataResponse!)
+            //            print(stockDataResponse!)
         }
         
     }
@@ -52,15 +56,19 @@ class Stocks:UIViewController {
     
     var collectionView: UICollectionView!
     var isDifferentOrder:Bool!
+    var isAccessory   = false
     var recieptID = Int()
+    var stockNameArrayKeys = [String]()
+    let localTransactionValues = UserDefaults.standard
+    var requestTransactionValues = [Int]()
+    
+    
     let shirtImages  = ["blacktshirt","whitetshirt","longsleeveblackshirt","longsleevewhiteshirt","beanie","hat","mask","totebag","Postage Bag","Mask Postage Bag","Clear Bag","Customs Form","Customs Form Tracked","Thermal Labels"]
     
     let shirtNames   = ["Short Sleeve - Black","Short Sleeve - White","Long Sleeve - Black","Long Sleeve - White","Beanie","Cap","Mask","Totebag","Postage Bag","Mask Postage Bag","Clear Bag","Customs Form","Customs Form Tracked","Thermal Labels"]
     
     let coloursArray  = [Colours.lime,Colours.loginBackground,Colours.loginButton,Colours.orange,Colours.peach,Colours.pink,Colours.teal,Colours.yellow]
-    var stockNameArrayKeys = [String]()
-    var isAccessory   = false
- 
+    
     
     //MARK: - LifeCycle
     
@@ -99,7 +107,7 @@ class Stocks:UIViewController {
         menuButton.tintColor    = Colours.loginButton
         navigationItem.leftBarButtonItem  = menuButton
         collectionView.delegate   = self
-
+        
     }
     
     
@@ -138,139 +146,243 @@ class Stocks:UIViewController {
         completed(longSleeveBlack,longSleeveWhite,shortSleeveWhite,shortSleeveBlack)
     }
     
-    func getAccessories() {
+    
+  
+    func authorizeSale(completion:([Int]) -> Void){
         
-        let masks         = "Mask"
-        let caps          = "Cap"
-        let beanie        = "Beanie"
-        let tote          = "Tote"
-        let path          =  dataResponse.results[0].title
-        let quantityPath  =  dataResponse.results[0].quantity
+        let testValues = [2083046623, 2082421312, 2082200888, 2082178190, 2081572356, 2081504166, 2081281589, 2080812449, 2079165911, 2079046333, 2078918037, 2078234545]
+        //        let testValues2 = [2083046626, 2082421317, 2082200883, 2082178190, 2081572356, 2081504166, 2081281589, 2080812449, 2079165911, 2079046333, 2078918037, 2078234545]
         
-        //                    caps
+        let difference = testValues.difference(from: localTransactionValues.object(forKey: "localTransactionValue") as! [Int]).insertions // returns an array of values that are different in comparison
+        var changedIndex = [Int]() // value of index changes
         
-        if path.contains(caps){
-            print("This is a cap purchase")
-            // set value for ui and database, also set value for masks bag and such
-            
+        for values in difference { // we have to do this because the enums have the values wee need then we append the
+            switch values {
+            case.insert(let offset, _, _):
+                changedIndex.append(offset)
+            case .remove(offset:_ , element: _, associatedWith:_):
+                break
+            }
         }
         
-        //                    masks
-        
-        if path.contains(masks) {
-            print("This is a mask purchase")
-            
+        if testValues == (localTransactionValues.object(forKey: "localTransactionValue") as! [Int])  {
+            print("DEBUG: VALUES ARE THE SAME")
         }
-        
-        //                    beanie
-        
-        if path.contains(beanie) {
-            print("This is a beanie purchase")
             
+        else {
+            print("DEBUG: VALUES CHANGED")
+            localTransactionValues.set(testValues, forKey: "localTransactionValue") // set new local value if values have changed
         }
+        print("DEBUG: REQUEST TRANS VALUE = \(requestTransactionValues)")
+        print("DEBUG: LOCAL TRANS VALUE   = \(localTransactionValues.object(forKey: "localTransactionValue")!)")
+        print("DEBUG: CHANGEDINDEX        = \(changedIndex)")
         
-        //                    tote
+        completion(changedIndex)
         
-        if path.contains(tote) {
-            print("This is a tote purchase")
-            
-        }
     }
     
     
-    
-    func getTshirts() {
+    func updateStocks() {
         
-        
-        let white             = "White"
-        let black             = "Black"
-        let longSleeveLarge   = "Long Sleeve - Large"
-        let longSleeveMedium  = "Long Sleeve - Medium"
-        let longSleeveSmall   = "Long Sleeve - Small"
-        let shortSleeveSmall  = "Short Sleeve - Small"
-        let shortSleeveMedium = "Short Sleeve -Medium"
-        let shortSleeveLarge  = "Short Sleeve - Large"
-        
-        guard let sizePath    = dataResponse.results[0].variations[0].formattedValue else {return}
-        guard let colourPath  = dataResponse.results[0].variations[1].formattedValue else {return}
-        let quantityPath      = dataResponse.results[0].quantity
-        let pricePath         = dataResponse.results[0].price
-        let recieptPath       = dataResponse.results[0].receiptId
-        
-        print(pricePath)
-        
-        
-        //                    shortSleeveBlackSmall
-        if sizePath.contains(shortSleeveSmall) && colourPath.contains(black) {
-            print("This shirt is a shortSleeveSmall black")
+        authorizeSale { (index) in
             
-            // Update ui and database and set things such as labels and bags value here too
-            //            label.count  = label.count - quantityPath
-            // use the reciept ID to check if the order isnt the same and do the function
-        }
-        
-        //                    shortSleeveBlackMedium
-        if sizePath.contains(shortSleeveMedium) && colourPath.contains(black) {
-            print("This shirt is a shortSleeveMedium")
-        }
-        
-        //                    shortSleeveBlackLarge
-        if sizePath.contains(shortSleeveLarge) && colourPath.contains(black) {
-            print("This shirt is a shortSleeveLarge black")
+            let masks             = "Mask"
+            let caps              = "Cap"
+            let beanie            = "Beanie"
+            let tote              = "Tote"
             
-        }
-        
-        //                    shortSleeveWhiteSmall
-        if sizePath.contains(shortSleeveSmall) && colourPath.contains(white) {
-            print("This shirt is a shortSleeveSmall white")
+            let white             = "White"
+            let black             = "Black"
+            let longSleeveLarge   = "Long Sleeve - Large"
+            let longSleeveMedium  = "Long Sleeve - Medium"
+            let longSleeveSmall   = "Long Sleeve - Small"
+            let shortSleeveSmall  = "Short Sleeve - Small"
+            let shortSleeveMedium = "Short Sleeve -Medium"
+            let shortSleeveLarge  = "Short Sleeve - Large"
             
-        }
-        //                    shortSleeveWhiteMedium
-        if sizePath.contains(shortSleeveMedium) && colourPath.contains(white) {
-            print("This shirt is a shortSleeveMedium white")
+            //        guard let sizePath    = dataResponse.results[0].variations[0].formattedValue else {return}
             
+            for values in index {
+                
+                
+                let path              =  dataResponse.results[values].title
+                guard let sizePath    = dataResponse.results[values].variations[0].formattedValue else {return}
+                guard let colourPath  = dataResponse.results[values].variations[1].formattedValue else {return}
+                let quantityPath      = dataResponse.results[values].quantity
+                let pricePath         = dataResponse.results[values].price
+                
+                //        let transactionPath   = dataResponse.map({$0.results[0...11].map{$0.transactionId}})
+                
+                //        print("DEBUG: RECIEPT PATH = \(transactionPath)")
+                
+                
+                //                    shortSleeveBlackSmall
+                if sizePath.contains(shortSleeveSmall) && colourPath.contains(black) {
+                    print("This shirt is a shortSleeveSmall black")
+                    
+                    
+                }
+                    
+                else {
+                    // Do Nothing
+                    
+                }
+                
+                //                    shortSleeveBlackMedium
+                if sizePath.contains(shortSleeveMedium) && colourPath.contains(black) {
+                    print("This shirt is a shortSleeveMedium")
+                }
+                else {
+                    // Do Nothing
+                    
+                }
+                
+                
+                
+                //                    shortSleeveBlackLarge
+                if sizePath.contains(shortSleeveLarge) && colourPath.contains(black) {
+                    print("This shirt is a shortSleeveLarge black")
+                    
+                }
+                else {
+                    // Do Nothing
+                    
+                }
+                
+                //                    shortSleeveWhiteSmall
+                if sizePath.contains(shortSleeveSmall) && colourPath.contains(white) {
+                    print("This shirt is a shortSleeveSmall white")
+                    
+                }
+                else {
+                    // Do Nothing
+                    
+                }
+                //                    shortSleeveWhiteMedium
+                if sizePath.contains(shortSleeveMedium) && colourPath.contains(white) {
+                    print("This shirt is a shortSleeveMedium white")
+                    
+                }
+                else {
+                    // Do Nothing
+                    
+                }
+                //                    shortSleeveWhiteLarge
+                if sizePath.contains(shortSleeveLarge) && colourPath.contains(white) {
+                    print("This shirt is a shortSleeveLarge white")
+                    
+                }
+                else {
+                    // Do Nothing
+                    
+                }
+                
+                //                    longSleeveBlackSmall
+                if sizePath.contains(longSleeveSmall) && colourPath.contains(black) {
+                    print("This shirt is a longSleeveSmall black")
+                    //            UserService.shared.updateShirtStockQuantity(Name: "longSleeveBlackSmall", small: <#T##Int#>, medium: <#T##Int#>, large: <#T##Int#>)
+                    
+                    
+                }
+                else {
+                    // Do Nothing
+                    
+                }
+                
+                //                    longSleeveBlackMedium
+                if sizePath.contains(longSleeveMedium) && colourPath.contains(black) {
+                    print("This shirt is a longSleeveMedium black")
+                    
+                }
+                else {
+                    // Do Nothing
+                    
+                }
+                //                    longSleeveBlackLarge
+                if sizePath.contains(longSleeveLarge) && colourPath.contains(black) {
+                    print("This shirt is a longSleeveLarge black")
+                    
+                }
+                else {
+                    // Do Nothing
+                    
+                }
+                
+                
+                //                    longSleeveWhiteSmall
+                if sizePath.contains(longSleeveSmall) && colourPath.contains(white) {
+                    print("This shirt is a longSleeveSmall white")
+                    
+                }
+                else {
+                    // Do Nothing
+                    
+                }
+                //                    longSleeveWhiteMedium
+                if sizePath.contains(longSleeveMedium) && colourPath.contains(white) {
+                    print("This shirt is a longSleeveMedium white")
+                    
+                }
+                else {
+                    // Do Nothing
+                    
+                }
+                //                    longSleeveWhiteLarge
+                if sizePath.contains(longSleeveLarge) && colourPath.contains(white) {
+                    print("This shirt is a longSleeveLarge white")
+                    
+                }
+                else {
+                    // Do Nothing
+                    
+                }
+                
+                //                    caps
+                
+                if path.contains(caps){
+                    print("This is a cap purchase")
+                    // set value for ui and database, also set value for masks bag and such
+                    
+                }
+                else {
+                    // Do Nothing
+                    
+                }
+                
+                //                    masks
+                
+                if path.contains(masks) {
+                    print("This is a mask purchase")
+                    
+                }
+                else {
+                    // Do Nothing
+                    
+                }
+                
+                //                    beanie
+                
+                if path.contains(beanie) {
+                    print("This is a beanie purchase")
+                    
+                }
+                else {
+                    // Do Nothing
+                    
+                }
+                
+                //                    tote
+                
+                if path.contains(tote) {
+                    print("This is a tote purchase")
+                    
+                }
+                else {
+                    // Do Nothing
+                    
+                }
+            }
         }
-        //                    shortSleeveWhiteLarge
-        if sizePath.contains(shortSleeveLarge) && colourPath.contains(white) {
-            print("This shirt is a shortSleeveLarge white")
-            
-        }
-        
-        //                    longSleeveBlackSmall
-        if sizePath.contains(longSleeveSmall) && colourPath.contains(black) {
-            print("This shirt is a longSleeveSmall black")
-            
-            
-        }
-        
-        //                    longSleeveBlackMedium
-        if sizePath.contains(longSleeveMedium) && colourPath.contains(black) {
-            print("This shirt is a longSleeveMedium black")
-            
-        }
-        //                    longSleeveBlackLarge
-        if sizePath.contains(longSleeveLarge) && colourPath.contains(black) {
-            print("This shirt is a longSleeveLarge black")
-            
-        }
-        
-        
-        //                    longSleeveWhiteSmall
-        if sizePath.contains(longSleeveSmall) && colourPath.contains(white) {
-            print("This shirt is a longSleeveSmall white")
-            
-        }
-        //                    longSleeveWhiteMedium
-        if sizePath.contains(longSleeveMedium) && colourPath.contains(white) {
-            print("This shirt is a longSleeveMedium white")
-            
-        }
-        //                    longSleeveWhiteLarge
-        if sizePath.contains(longSleeveLarge) && colourPath.contains(white) {
-            print("This shirt is a longSleeveLarge white")
-            
-        }
-        
     }
     
     
@@ -285,7 +397,7 @@ class Stocks:UIViewController {
     
     
     @objc func Logout() {
-
+        
         guard let window = UIApplication.shared.windows.first(where: {$0.isKeyWindow}) else {
             return
         }
@@ -293,8 +405,8 @@ class Stocks:UIViewController {
         tab.logUserOut()
         // we access the mainttabbarcontroller and run the function here
         self.dismiss(animated: false, completion: nil)
-
-
+        
+        
     }
     
 }
@@ -316,22 +428,22 @@ extension Stocks:UICollectionViewDataSource,UICollectionViewDelegate {
         cell.avatarImageView.image = UIImage(named: shirtImages[indexPath.row])
         cell.titleLabel.text  = shirtNames[indexPath.row]
         
-//        cell.smallLabel.text  = sizes[0]
-//        cell.mediumLabel.text = sizes[1]
-//        cell.LargeLabel.text  = sizes[2]
+        //        cell.smallLabel.text  = sizes[0]
+        //        cell.mediumLabel.text = sizes[1]
+        //        cell.LargeLabel.text  = sizes[2]
         
-//        if isAccessory {
-//            cell.smallLabel.isHidden  = true
-//            cell.LargeLabel.isHidden  = true
-//            cell.mediumLabel.isHidden     = true
-//        }
+        //        if isAccessory {
+        //            cell.smallLabel.isHidden  = true
+        //            cell.LargeLabel.isHidden  = true
+        //            cell.mediumLabel.isHidden     = true
+        //        }
         
         //        longSleeveBlack,longSleeveWhite,shortSleeveWhite,shortSleeveBlack
         
         convertShirtValues { (longSleeveBlack, longSleeveWhite, shortSleeveWhite, shortSleeveBlack) in
             switch indexPath.row {
                 
-                case 0:
+            case 0:
                 //ShortSleeveBlack
                 cell.smallLabelValue.text  = String(shortSleeveBlack[1])
                 cell.mediumLabelValue.text = String(shortSleeveBlack[2])
@@ -395,12 +507,12 @@ extension Stocks:UICollectionViewDataSource,UICollectionViewDelegate {
                 //PostageBag
                 isAccessory = true
                 cell.mediumLabelValue.text = String(stockDataResponse.PostalBag)
-
+                
             case 9:
                 //MaskPostageBag
                 isAccessory = true
                 cell.mediumLabelValue.text = String(stockDataResponse.MaskPostalBag)
-
+                
             case 10:
                 //ClearBag
                 isAccessory = true
@@ -410,17 +522,17 @@ extension Stocks:UICollectionViewDataSource,UICollectionViewDelegate {
                 //CustomsForm
                 isAccessory = true
                 cell.mediumLabelValue.text = String(stockDataResponse.CustomsForm)
-
+                
             case 12:
                 //CustomsFormTracked
                 isAccessory = true
                 cell.mediumLabelValue.text = String(stockDataResponse.CustomsFormTracked)
-
+                
             case 13:
                 //ThermalLabel
                 isAccessory = true
                 cell.mediumLabelValue.text = String(stockDataResponse.ThermalLabel)
-
+                
                 
             default:
                 break

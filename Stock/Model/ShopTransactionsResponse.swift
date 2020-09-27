@@ -26,6 +26,7 @@ struct ShopTransactions:Decodable {
     let tags:[String]
     let paidTsz:Int
     let receiptId: Int
+    let transactionId:Int
     
 }
 

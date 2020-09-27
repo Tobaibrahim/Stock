@@ -116,14 +116,14 @@ class EditStocks:UIViewController {
         smallLabel.centerX(inView: view, topAnchor: itemValueLabelSmall.topAnchor, paddingTop: 50)
         smallLabel.setDimensions(width: 150, height: 80)
         smallLabel.textColor = .black
-        smallLabel.text  = "Qauntity"
+        smallLabel.text  = "Quantity"
        
         
     }
     
     
     func configureUI() {
-        print("DEBUG: ITEM PATH NAME = \(itemPathName)")
+        print("DEBUG: ITEM PATH NAME = \(itemPathName!)")
         view.backgroundColor = backgroundColour ?? Colours.orange
         navigationController?.navigationBar.isHidden = true
         view.addSubview(itemImage)
