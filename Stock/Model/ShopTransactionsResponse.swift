@@ -36,3 +36,5 @@ struct Value: Decodable {
     let formattedValue:String
 }
 
+
+

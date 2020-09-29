@@ -127,6 +127,11 @@ func addConstraintsToFillView(_ view: UIView) {
     
 }
 
+extension Array {
+    subscript (safe index: Int) -> Element? {
+        return indices ~= index ? self[index] : nil
+    }
+}
 
 //extension Array where Element: Hashable {
 //    func difference(from other: [Element]) -> [Element] {
