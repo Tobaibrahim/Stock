@@ -21,10 +21,6 @@ class Stocks:UIViewController {
         didSet {
             print("DATA SET")
             updateStocks()
-            //            authorizeSale()
-            guard let safeResponse = dataResponse.map({$0.results[0...11].map{$0.transactionId}}) else {return} // get transaction value from request
-            requestTransactionValues = safeResponse // get transaction value from request
-            //            getAccessories()
             
         }
         
@@ -63,9 +59,23 @@ class Stocks:UIViewController {
     var requestTransactionValues = [Int]()
     
     
-    let shirtImages  = ["blacktshirt","whitetshirt","longsleeveblackshirt","longsleevewhiteshirt","beanie","hat","mask","totebag","Postage Bag","Mask Postage Bag","Clear Bag","Customs Form","Customs Form Tracked","Thermal Labels"]
+    let shirtImages       = ["blacktshirt","whitetshirt","longsleeveblackshirt","longsleevewhiteshirt","beanie","hat","mask","totebag","Postage Bag","Mask Postage Bag","Clear Bag","Customs Form","Customs Form Tracked","Thermal Labels"]
     
-    let shirtNames   = ["Short Sleeve - Black","Short Sleeve - White","Long Sleeve - Black","Long Sleeve - White","Beanie","Cap","Mask","Totebag","Postage Bag","Mask Postage Bag","Clear Bag","Customs Form","Customs Form Tracked","Thermal Labels"]
+    let shirtNames        = ["Short Sleeve - Black","Short Sleeve - White","Long Sleeve - Black","Long Sleeve - White","Beanie","Cap","Mask","Totebag","Postage Bag","Mask Postage Bag","Clear Bag","Customs Form","Customs Form Tracked","Thermal Labels"]
+    
+    let masks             = "Mask"
+    let caps              = "Cap"
+    let beanie            = "Beanie"
+    let tote              = "Tote"
+    
+    let white             = "White"
+    let black             = "Black"
+    let longSleeveLarge   = "Long Sleeve - Large"
+    let longSleeveMedium  = "Long Sleeve - Medium"
+    let longSleeveSmall   = "Long Sleeve - Small"
+    let shortSleeveSmall  = "Short Sleeve - Small"
+    let shortSleeveMedium = "Short Sleeve -Medium"
+    let shortSleeveLarge  = "Short Sleeve - Large"
     
     let coloursArray  = [Colours.lime,Colours.loginBackground,Colours.loginButton,Colours.orange,Colours.peach,Colours.pink,Colours.teal,Colours.yellow]
     
@@ -149,12 +159,16 @@ class Stocks:UIViewController {
     
   
     func authorizeSale(completion:([Int]) -> Void){
+//        let testValues = [2083046621, 2082421314, 2082200888, 2082178190, 2081572356, 2081504166, 2081281589, 2080812449, 2079165911, 2079046333, 2078918037, 2078234545]
+//        let testValues2 = [2083046626, 2082421317, 2082200883, 2082178190, 2081572356, 2081504166, 2081281589, 2080812449, 2079165911, 2079046333, 2078918037, 2078234545]
         
-        let testValues = [2083046623, 2082421312, 2082200888, 2082178190, 2081572356, 2081504166, 2081281589, 2080812449, 2079165911, 2079046333, 2078918037, 2078234545]
-        //        let testValues2 = [2083046626, 2082421317, 2082200883, 2082178190, 2081572356, 2081504166, 2081281589, 2080812449, 2079165911, 2079046333, 2078918037, 2078234545]
-        
-        let difference = testValues.difference(from: localTransactionValues.object(forKey: "localTransactionValue") as! [Int]).insertions // returns an array of values that are different in comparison
-        var changedIndex = [Int]() // value of index changes
+        guard let safeResponse = dataResponse.map({$0.results[0...11].map{$0.transactionId}}) else {return} // get transaction value from request
+        requestTransactionValues = safeResponse // get transaction value from request
+        let name = "localTransactionValue"
+        let localTransVal = localTransactionValues.object(forKey: name) as! [Int]
+        let difference    = requestTransactionValues.difference(from:localTransVal).insertions // returns an array of values that are different in comparison
+        var changedIndex  = [Int]() // value of index changes
+
         
         for values in difference { // we have to do this because the enums have the values wee need then we append the
             switch values {
@@ -165,16 +179,19 @@ class Stocks:UIViewController {
             }
         }
         
-        if testValues == (localTransactionValues.object(forKey: "localTransactionValue") as! [Int])  {
+        
+        if requestTransactionValues == localTransVal  {
             print("DEBUG: VALUES ARE THE SAME")
+            
         }
+            
             
         else {
             print("DEBUG: VALUES CHANGED")
-            localTransactionValues.set(testValues, forKey: "localTransactionValue") // set new local value if values have changed
+            localTransactionValues.set(requestTransactionValues, forKey: name) // set new local value if values have changed
         }
         print("DEBUG: REQUEST TRANS VALUE = \(requestTransactionValues)")
-        print("DEBUG: LOCAL TRANS VALUE   = \(localTransactionValues.object(forKey: "localTransactionValue")!)")
+        print("DEBUG: LOCAL TRANS VALUE   = \(localTransactionValues.object(forKey: name)!)")
         print("DEBUG: CHANGEDINDEX        = \(changedIndex)")
         
         completion(changedIndex)
@@ -186,40 +203,20 @@ class Stocks:UIViewController {
         
         authorizeSale { (index) in
             
-            let masks             = "Mask"
-            let caps              = "Cap"
-            let beanie            = "Beanie"
-            let tote              = "Tote"
-            
-            let white             = "White"
-            let black             = "Black"
-            let longSleeveLarge   = "Long Sleeve - Large"
-            let longSleeveMedium  = "Long Sleeve - Medium"
-            let longSleeveSmall   = "Long Sleeve - Small"
-            let shortSleeveSmall  = "Short Sleeve - Small"
-            let shortSleeveMedium = "Short Sleeve -Medium"
-            let shortSleeveLarge  = "Short Sleeve - Large"
-            
-            //        guard let sizePath    = dataResponse.results[0].variations[0].formattedValue else {return}
-            
             for values in index {
+                print("DEBUG: CHANGED VALUE = \(values)")
                 
+                // create a way to authorize values
                 
-                let path              =  dataResponse.results[values].title
-                guard let sizePath    = dataResponse.results[values].variations[0].formattedValue else {return}
-                guard let colourPath  = dataResponse.results[values].variations[1].formattedValue else {return}
-                let quantityPath      = dataResponse.results[values].quantity
-                let pricePath         = dataResponse.results[values].price
-                
-                //        let transactionPath   = dataResponse.map({$0.results[0...11].map{$0.transactionId}})
-                
-                //        print("DEBUG: RECIEPT PATH = \(transactionPath)")
-                
-                
+                let path              = dataResponse.results[values].title
+                let sizePath          = dataResponse.results[values].variations[0].formattedValue   // fix the index crashing
+                let colourPath        = dataResponse.results[values].variations[1].formattedValue // fix index crashing
+//                let quantityPath      = dataResponse.results[values].quantity
+//                let pricePath         = dataResponse.results[values].price
+             
                 //                    shortSleeveBlackSmall
                 if sizePath.contains(shortSleeveSmall) && colourPath.contains(black) {
                     print("This shirt is a shortSleeveSmall black")
-                    
                     
                 }
                     
@@ -280,7 +277,6 @@ class Stocks:UIViewController {
                 //                    longSleeveBlackSmall
                 if sizePath.contains(longSleeveSmall) && colourPath.contains(black) {
                     print("This shirt is a longSleeveSmall black")
-                    //            UserService.shared.updateShirtStockQuantity(Name: "longSleeveBlackSmall", small: <#T##Int#>, medium: <#T##Int#>, large: <#T##Int#>)
                     
                     
                 }
@@ -353,7 +349,7 @@ class Stocks:UIViewController {
                 
                 if path.contains(masks) {
                     print("This is a mask purchase")
-                    
+//                    UserService.shared.updateAccessoryStockQuantity(Name: "Mask", value:)
                 }
                 else {
                     // Do Nothing
@@ -427,18 +423,7 @@ extension Stocks:UICollectionViewDataSource,UICollectionViewDelegate {
         
         cell.avatarImageView.image = UIImage(named: shirtImages[indexPath.row])
         cell.titleLabel.text  = shirtNames[indexPath.row]
-        
-        //        cell.smallLabel.text  = sizes[0]
-        //        cell.mediumLabel.text = sizes[1]
-        //        cell.LargeLabel.text  = sizes[2]
-        
-        //        if isAccessory {
-        //            cell.smallLabel.isHidden  = true
-        //            cell.LargeLabel.isHidden  = true
-        //            cell.mediumLabel.isHidden     = true
-        //        }
-        
-        //        longSleeveBlack,longSleeveWhite,shortSleeveWhite,shortSleeveBlack
+      
         
         convertShirtValues { (longSleeveBlack, longSleeveWhite, shortSleeveWhite, shortSleeveBlack) in
             switch indexPath.row {
