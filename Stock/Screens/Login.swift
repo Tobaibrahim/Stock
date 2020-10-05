@@ -57,6 +57,7 @@ class Login:UIViewController {
     
     
     func configureUI() {
+        createDismissKeyboardTapGseture()
         view.backgroundColor = Colours.loginBackground
         navigationController?.navigationBar.isHidden = true
         let viewComponents = [logoImage,passwordTextField,usernameTextField,loginButton]

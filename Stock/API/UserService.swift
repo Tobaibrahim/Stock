@@ -22,7 +22,7 @@ struct UserService {
             let snapshopValue       = snapshot.value as? NSDictionary
             let value = StockQuantity(dictionary: dictionary)
             guard let keys  = snapshopValue?.allKeys as? [String] else {return}
-            print(snapshopValue?.allKeys)
+//            print(snapshopValue?.allKeys)
             completion(value, keys)
 
         }}
