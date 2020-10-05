@@ -9,7 +9,7 @@
 import UIKit
 
 struct StockQuantityViewModel {
-
+    
     
     let LongSleeveBlack        : [String:Int]
     let ShortSleeveWhite       : [String:Int]
@@ -26,14 +26,25 @@ struct StockQuantityViewModel {
     let Tote                   : Int
     let ClearBag               : Int
     var isAccessory            : Bool
-
+    let shirtImages            :[String]
+    let shirtNames             :[String]
+    let coloursArray           :[UIColor]
+    let masks                  :String
+    let caps                   :String
+    let beanie                 :String
+    let tote                   :String
+    let white                  :String
+    let black                  :String
+    let longSleeveLarge        :String
+    let longSleeveMedium       :String
+    let longSleeveSmall        :String
+    let shortSleeveSmall       :String
+    let shortSleeveMedium      :String
+    let shortSleeveLarge       :String
     
     
-
-
-
     init(stockQuantity:StockQuantity) {
-
+        
         self.LongSleeveBlack           = stockQuantity.LongSleeveBlack
         self.ShortSleeveWhite          = stockQuantity.ShortSleeveWhite
         self.ShortSleeveBlack          = stockQuantity.ShortSleeveBlack
@@ -48,7 +59,23 @@ struct StockQuantityViewModel {
         self.CustomsForm               = stockQuantity.CustomsForm
         self.Tote                      = stockQuantity.Tote
         self.ClearBag                  = stockQuantity.ClearBag
-        self.isAccessory               = false
+        self.isAccessory               = stockQuantity.isAccessory
+        self.shirtImages               = stockQuantity.shirtImages
+        self.shirtNames                = stockQuantity.shirtNames
+        self.masks                     = stockQuantity.masks
+        self.caps                      = stockQuantity.caps
+        self.beanie                    = stockQuantity.beanie
+        self.tote                      = stockQuantity.tote
+        self.white                     = stockQuantity.white
+        self.black                     = stockQuantity.black
+        self.longSleeveLarge           = stockQuantity.longSleeveLarge
+        self.longSleeveMedium          = stockQuantity.longSleeveMedium
+        self.longSleeveSmall           = stockQuantity.longSleeveSmall
+        self.shortSleeveSmall          = stockQuantity.shortSleeveSmall
+        self.shortSleeveMedium         = stockQuantity.shortSleeveMedium
+        self.shortSleeveLarge          = stockQuantity.shortSleeveLarge
+        self.coloursArray              = stockQuantity.coloursArray
+        
     }
-
+    
 }

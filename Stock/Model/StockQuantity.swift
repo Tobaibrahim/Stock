@@ -27,9 +27,22 @@ struct StockQuantity {
     let CustomsForm            : Int
     let Tote                   : Int
     let ClearBag               : Int
-
-
-
+    let shirtImages            :[String]
+    let shirtNames             :[String]
+    let coloursArray           :[UIColor]
+    let masks                  :String
+    let caps                   :String
+    let beanie                 :String
+    let tote                   :String
+    let white                  :String
+    let black                  :String
+    let longSleeveLarge        :String
+    let longSleeveMedium       :String
+    let longSleeveSmall        :String
+    let shortSleeveSmall       :String
+    let shortSleeveMedium      :String
+    let shortSleeveLarge       :String
+    let isAccessory            :Bool
 
 
     init(dictionary:[String:AnyObject]) {
@@ -48,7 +61,26 @@ struct StockQuantity {
         self.CustomsForm               = dictionary["CustomsForm"] as? Int ??  0
         self.Tote                      = dictionary["Tote"] as? Int ??  0
         self.ClearBag                  = dictionary["ClearBag"] as? Int ??  0
-
+        self.shirtImages             = ["blacktshirt","whitetshirt","longsleeveblackshirt","longsleevewhiteshirt","beanie","hat","mask","totebag","Postage Bag","Mask Postage Bag","Clear Bag","Customs Form","Customs Form Tracked","Thermal Labels"]
+        
+        self.shirtNames              = ["Short Sleeve - Black","Short Sleeve - White","Long Sleeve - Black","Long Sleeve - White","Beanie","Cap","Mask","Totebag","Postage Bag","Mask Postage Bag","Clear Bag","Customs Form","Customs Form Tracked","Thermal Labels"]
+        
+        self.masks                   = "mask"
+        self.caps                    = "cap"
+        self.beanie                  = "beanie"
+        self.tote                    = "tote"
+        self.white                   = "White"
+        self.black                   = "Black"
+        self.longSleeveLarge         = "Long Sleeve - Large"
+        self.longSleeveMedium        = "Long Sleeve - Medium"
+        self.longSleeveSmall         = "Long Sleeve - Small"
+        self.shortSleeveSmall        = "Short Sleeve - Small"
+        self.shortSleeveMedium       = "Short Sleeve -Medium"
+        self.shortSleeveLarge        = "Short Sleeve - Large"
+        self.coloursArray            = [Colours.lime,Colours.loginBackground,Colours.loginButton,Colours.orange,Colours.peach,Colours.pink,Colours.teal,Colours.yellow]
+        self.isAccessory             = false
+        
+        
     }
 
 }

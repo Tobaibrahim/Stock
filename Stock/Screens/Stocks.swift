@@ -11,7 +11,7 @@ import UIKit
 import Firebase
 
 
-class Stocks:UIViewController {
+class Stocks:UIViewController, UICollectionViewDataSource {
     
     
     //MARK: - Properties
@@ -54,27 +54,7 @@ class Stocks:UIViewController {
     let localTransactionValues = UserDefaults.standard
     lazy var requestTransactionValues = [Int]()
     
-    
-    let shirtImages       = ["blacktshirt","whitetshirt","longsleeveblackshirt","longsleevewhiteshirt","beanie","hat","mask","totebag","Postage Bag","Mask Postage Bag","Clear Bag","Customs Form","Customs Form Tracked","Thermal Labels"]
-    
-    let shirtNames        = ["Short Sleeve - Black","Short Sleeve - White","Long Sleeve - Black","Long Sleeve - White","Beanie","Cap","Mask","Totebag","Postage Bag","Mask Postage Bag","Clear Bag","Customs Form","Customs Form Tracked","Thermal Labels"]
-    
-    let masks             = "mask"
-    let caps              = "cap"
-    let beanie            = "beanie"
-    let tote              = "tote"
-    
-    let white             = "White"
-    let black             = "Black"
-    let longSleeveLarge   = "Long Sleeve - Large"
-    let longSleeveMedium  = "Long Sleeve - Medium"
-    let longSleeveSmall   = "Long Sleeve - Small"
-    let shortSleeveSmall  = "Short Sleeve - Small"
-    let shortSleeveMedium = "Short Sleeve -Medium"
-    let shortSleeveLarge  = "Short Sleeve - Large"
-    
-    let coloursArray  = [Colours.lime,Colours.loginBackground,Colours.loginButton,Colours.orange,Colours.peach,Colours.pink,Colours.teal,Colours.yellow]
-    
+  
     
     //MARK: - LifeCycle
     
@@ -84,9 +64,6 @@ class Stocks:UIViewController {
         getData()
         configureUI()
     }
-    
-    
-    
     
     //MARK: - Helpers
     
@@ -220,14 +197,14 @@ class Stocks:UIViewController {
                     
                     
                     //                    shortSleeveBlackSmall
-                    if sizePath.contains(shortSleeveSmall) && colourPath.contains(black) {
+                    if sizePath.contains(stockDataResponse.shortSleeveSmall) && colourPath.contains(stockDataResponse.black) {
                         print("This shirt is a shortSleeveSmall black")
                         UserService.shared.updateShirtStockQuantity(Name: "ShortSleeveBlack", small: shortSleeveBlack[1] - quantityPath, medium: shortSleeveBlack[2] , large: shortSleeveBlack[0])
                         compress()
                     }
                     
                     //                    shortSleeveBlackMedium
-                    if sizePath.contains(shortSleeveMedium) && colourPath.contains(black) {
+                    if sizePath.contains(stockDataResponse.shortSleeveMedium) && colourPath.contains(stockDataResponse.black) {
                         print("This shirt is a shortSleeveMedium")
                         UserService.shared.updateShirtStockQuantity(Name: "ShortSleeveBlack", small: shortSleeveBlack[1], medium: shortSleeveBlack[2] - quantityPath, large: shortSleeveBlack[0])
                         compress()
@@ -235,7 +212,7 @@ class Stocks:UIViewController {
                     }
                     
                     //                    shortSleeveBlackLarge
-                    if sizePath.contains(shortSleeveLarge) && colourPath.contains(black) {
+                    if sizePath.contains(stockDataResponse.shortSleeveLarge) && colourPath.contains(stockDataResponse.black) {
                         UserService.shared.updateShirtStockQuantity(Name: "ShortSleeveBlack", small: shortSleeveBlack[1], medium: shortSleeveBlack[2], large: shortSleeveBlack[0] - quantityPath)
                         compress()
                         print("This shirt is a shortSleeveLarge black")
@@ -243,7 +220,7 @@ class Stocks:UIViewController {
                     }
                     
                     //                    shortSleeveWhiteSmall
-                    if sizePath.contains(shortSleeveSmall) && colourPath.contains(white) {
+                    if sizePath.contains(stockDataResponse.shortSleeveSmall) && colourPath.contains(stockDataResponse.white) {
                         UserService.shared.updateShirtStockQuantity(Name: "ShortSleeveWhite", small: shortSleeveWhite[1] - quantityPath, medium: shortSleeveWhite[2], large: shortSleeveWhite[0])
                         compress()
                         print("This shirt is a shortSleeveSmall white")
@@ -251,7 +228,7 @@ class Stocks:UIViewController {
                     }
                     
                     //                    shortSleeveWhiteMedium
-                    if sizePath.contains(shortSleeveMedium) && colourPath.contains(white) {
+                    if sizePath.contains(stockDataResponse.shortSleeveMedium) && colourPath.contains(stockDataResponse.white) {
                         UserService.shared.updateShirtStockQuantity(Name: "ShortSleeveWhite", small: shortSleeveWhite[1] , medium: shortSleeveWhite[2] - quantityPath, large: shortSleeveWhite[0])
                         compress()
                         print("This shirt is a shortSleeveMedium white")
@@ -259,7 +236,7 @@ class Stocks:UIViewController {
                     }
                     
                     //                    shortSleeveWhiteLarge
-                    if sizePath.contains(shortSleeveLarge) && colourPath.contains(white) {
+                    if sizePath.contains(stockDataResponse.shortSleeveLarge) && colourPath.contains(stockDataResponse.white) {
                         UserService.shared.updateShirtStockQuantity(Name: "ShortSleeveWhite", small: shortSleeveWhite[1] , medium: shortSleeveWhite[2] , large: shortSleeveWhite[0] - quantityPath)
                         compress()
                         print("This shirt is a shortSleeveLarge white")
@@ -267,49 +244,49 @@ class Stocks:UIViewController {
                     }
                     
                     //                    longSleeveBlackSmall
-                    if sizePath.contains(longSleeveSmall) && colourPath.contains(black) {
+                    if sizePath.contains(stockDataResponse.longSleeveSmall) && colourPath.contains(stockDataResponse.black) {
                         UserService.shared.updateShirtStockQuantity(Name: "LongSleeveBlack", small: longSleeveBlack[1] - quantityPath , medium: longSleeveBlack[2] , large: longSleeveBlack[0])
                         compress()
                         print("This shirt is a longSleeveSmall black")
                     }
                     
                     //                    longSleeveBlackMedium
-                    if sizePath.contains(longSleeveMedium) && colourPath.contains(black) {
+                    if sizePath.contains(stockDataResponse.longSleeveMedium) && colourPath.contains(stockDataResponse.black) {
                         UserService.shared.updateShirtStockQuantity(Name: "LongSleeveBlack", small: longSleeveBlack[1] , medium: longSleeveBlack[2] - quantityPath, large: longSleeveBlack[0])
                         compress()
                         print("This shirt is a longSleeveMedium black")
                     }
                     
                     //                    longSleeveBlackLarge
-                    if sizePath.contains(longSleeveLarge) && colourPath.contains(black) {
+                    if sizePath.contains(stockDataResponse.longSleeveLarge) && colourPath.contains(stockDataResponse.black) {
                         UserService.shared.updateShirtStockQuantity(Name: "LongSleeveBlack", small: longSleeveBlack[1] , medium: longSleeveBlack[2] , large: longSleeveBlack[0] - quantityPath)
                         compress()
                         print("This shirt is a longSleeveLarge black")
                     }
                     
                     //                    longSleeveWhiteSmall
-                    if sizePath.contains(longSleeveSmall) && colourPath.contains(white) {
+                    if sizePath.contains(stockDataResponse.longSleeveSmall) && colourPath.contains(stockDataResponse.white) {
                         UserService.shared.updateShirtStockQuantity(Name: "LongSleeveWhite", small: longSleeveWhite[1] - quantityPath, medium: longSleeveWhite[2] , large: longSleeveWhite[0])
                         compress()
                         print("This shirt is a longSleeveSmall white")
                     }
                     
                     //                    longSleeveWhiteMedium
-                    if sizePath.contains(longSleeveMedium) && colourPath.contains(white) {
+                    if sizePath.contains(stockDataResponse.longSleeveMedium) && colourPath.contains(stockDataResponse.white) {
                         UserService.shared.updateShirtStockQuantity(Name: "LongSleeveWhite", small: longSleeveWhite[1], medium: longSleeveWhite[2] - quantityPath , large: longSleeveWhite[0])
                         compress()
                         print("This shirt is a longSleeveMedium white")
                     }
                     
                     //                    longSleeveWhiteLarge
-                    if sizePath.contains(longSleeveLarge) && colourPath.contains(white) {
+                    if sizePath.contains(stockDataResponse.longSleeveLarge) && colourPath.contains(stockDataResponse.white) {
                         UserService.shared.updateShirtStockQuantity(Name: "LongSleeveWhite", small: longSleeveWhite[1], medium: longSleeveWhite[2], large: longSleeveWhite[0] - quantityPath )
                         compress()
                         print("This shirt is a longSleeveLarge white")
                     }
                     
                     //                    caps
-                    if path.contains(caps) || tagsPath.contains(caps){
+                    if path.contains(stockDataResponse.caps) || tagsPath.contains(stockDataResponse.caps){
                         UserService.shared.updateAccessoryStockQuantity(Name: "Cap", value: stockDataResponse.Cap - quantityPath)
                         compress()
                         print("This is a cap purchase")
@@ -318,7 +295,7 @@ class Stocks:UIViewController {
                     
                     
                     //                    masks
-                    if path.contains(masks) || tagsPath.contains(masks) {
+                    if path.contains(stockDataResponse.masks) || tagsPath.contains(stockDataResponse.masks) {
                         print("This is a mask purchase")
                         UserService.shared.updateAccessoryStockQuantity(Name: "Mask", value: stockDataResponse.Mask - quantityPath)
                         UserService.shared.updateAccessoryStockQuantity(Name: "Mask", value: stockDataResponse.MaskPostalBag - quantityPath)
@@ -326,7 +303,7 @@ class Stocks:UIViewController {
                     
                     //                    beanie
                     
-                    if path.contains(beanie) || tagsPath.contains(beanie) {
+                    if path.contains(stockDataResponse.beanie) || tagsPath.contains(stockDataResponse.beanie) {
                         UserService.shared.updateAccessoryStockQuantity(Name: "Beanie", value: stockDataResponse.Beanie - quantityPath)
                         compress()
                         print("This is a beanie purchase")
@@ -335,7 +312,7 @@ class Stocks:UIViewController {
                     
                     //                    tote
                     
-                    if path.contains(tote) || tagsPath.contains(tote) {
+                    if path.contains(stockDataResponse.tote) || tagsPath.contains(stockDataResponse.tote) {
                         UserService.shared.updateAccessoryStockQuantity(Name: "Tote", value: stockDataResponse.Tote - quantityPath)
                         compress()
                         print("This is a tote purchase")
@@ -348,7 +325,23 @@ class Stocks:UIViewController {
         }
     }
     
-    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        let offsetY       = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height + 200
+        let height        = scrollView.frame.size.height + 200
+        // the height of our screen
+        
+        if offsetY > contentHeight - height + 100 {
+            getStocks()
+            getData()
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+            
+        }
+        
+        
+    }
     
     func createObservers() {
         let name = NSNotification.Name(notificationKeys.reloadCollectionView)
@@ -380,257 +373,6 @@ class Stocks:UIViewController {
     }
     
 }
-
-
-extension Stocks:UICollectionViewDataSource,UICollectionViewDelegate {
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-        return shirtNames.count
-        
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let sizes = ["S","M","L"]
-        let cell  = collectionView.dequeueReusableCell(withReuseIdentifier: StockCell.reuseID, for: indexPath) as! StockCell
-        cell.contentView.backgroundColor = coloursArray.randomElement()
-        
-        cell.avatarImageView.image = UIImage(named: shirtImages[indexPath.row])
-        cell.titleLabel.text  = shirtNames[indexPath.row]
-        
-        
-        convertShirtValues { (longSleeveBlack, longSleeveWhite, shortSleeveWhite, shortSleeveBlack) in
-            switch indexPath.row {
-                
-            case 0:
-                //ShortSleeveBlack
-                cell.smallLabelValue.text  = String(shortSleeveBlack[1])
-                cell.mediumLabelValue.text = String(shortSleeveBlack[2])
-                cell.LargeLabelValue.text  = String(shortSleeveBlack[0])
-                cell.smallLabel.text  = sizes[0]
-                cell.mediumLabel.text = sizes[1]
-                cell.LargeLabel.text  = sizes[2]
-                
-            case 1:
-                //ShortSleeveWhite
-                cell.smallLabelValue.text  = String(shortSleeveWhite[1])
-                cell.mediumLabelValue.text = String(shortSleeveWhite[2])
-                cell.LargeLabelValue.text  = String(shortSleeveWhite[0])
-                cell.smallLabel.text  = sizes[0]
-                cell.mediumLabel.text = sizes[1]
-                cell.LargeLabel.text  = sizes[2]
-            case 2:
-                //LongSleeveBlack
-                cell.smallLabelValue.text  = String(longSleeveBlack[1])
-                cell.mediumLabelValue.text = String(longSleeveBlack[2])
-                cell.LargeLabelValue.text  = String(longSleeveBlack[0])
-                cell.smallLabel.text  = sizes[0]
-                cell.mediumLabel.text = sizes[1]
-                cell.LargeLabel.text  = sizes[2]
-                
-            case 3:
-                
-                //LongSleeveWhite
-                cell.smallLabelValue.text  = String(longSleeveWhite[1])
-                cell.mediumLabelValue.text = String(longSleeveWhite[2])
-                cell.LargeLabelValue.text  = String(longSleeveWhite[0])
-                cell.smallLabel.text  = sizes[0]
-                cell.mediumLabel.text = sizes[1]
-                cell.LargeLabel.text  = sizes[2]
-                
-                
-            case 4:
-                //Beanie
-                stockDataResponse.isAccessory = true
-                cell.mediumLabelValue.text = String(stockDataResponse.Beanie)
-                break
-                
-                
-            case 5:
-                //Cap
-                stockDataResponse.isAccessory = true
-                cell.mediumLabelValue.text = String(stockDataResponse.Cap)
-                
-            case 6:
-                //Mask
-                stockDataResponse.isAccessory = true
-                cell.mediumLabelValue.text = String(stockDataResponse.Mask)
-                
-            case 7:
-                //Tote
-                stockDataResponse.isAccessory = true
-                cell.mediumLabelValue.text = String(stockDataResponse.Tote)
-                
-            case 8:
-                //PostageBag
-                stockDataResponse.isAccessory = true
-                cell.mediumLabelValue.text = String(stockDataResponse.PostalBag)
-                
-            case 9:
-                //MaskPostageBag
-                stockDataResponse.isAccessory = true
-                cell.mediumLabelValue.text = String(stockDataResponse.MaskPostalBag)
-                
-            case 10:
-                //ClearBag
-                stockDataResponse.isAccessory = true
-                cell.mediumLabelValue.text = String(stockDataResponse.ClearBag)
-                
-            case 11:
-                //CustomsForm
-                stockDataResponse.isAccessory = true
-                cell.mediumLabelValue.text = String(stockDataResponse.CustomsForm)
-                
-            case 12:
-                //CustomsFormTracked
-                stockDataResponse.isAccessory = true
-                cell.mediumLabelValue.text = String(stockDataResponse.CustomsFormTracked)
-                
-            case 13:
-                //ThermalLabel
-                stockDataResponse.isAccessory = true
-                cell.mediumLabelValue.text = String(stockDataResponse.ThermalLabel)
-                
-                
-            default:
-                break
-            }
-            
-        }
-        
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        let imageNamePath = shirtImages[indexPath.row]
-        let shirtNamePath = shirtNames[indexPath.row]
-        let destVC  = EditStocks()
-        destVC.backgroundColour = coloursArray.randomElement()
-        destVC.itemImageName    = imageNamePath
-        destVC.itemName         = shirtNamePath // The item name for the text value
-        
-        convertShirtValues { (longSleeveBlack, longSleeveWhite, shortSleeveWhite, shortSleeveBlack) in
-            // using the return values for the tshirts we pass the s,m,l labels to the databse values, I did this because we had to parse the dictionary data
-            switch indexPath.row {
-            case 0:
-                // ShortSleeveBlack
-                destVC.itemPathName     = stockNameArrayKeys[0]
-                destVC.smallLabelValue  = shortSleeveBlack[1]
-                destVC.mediumLabelValue = shortSleeveBlack[2]
-                destVC.largeLabelValue  = shortSleeveBlack[0]
-            case 1:
-                // ShortSleeveWhite
-                destVC.itemPathName     = stockNameArrayKeys[2]
-                destVC.smallLabelValue  = shortSleeveWhite[1]
-                destVC.mediumLabelValue = shortSleeveWhite[2]
-                destVC.largeLabelValue  = shortSleeveWhite[0]
-            case 2:
-                //LongSleeveBlack
-                destVC.itemPathName     = stockNameArrayKeys[7]
-                destVC.smallLabelValue  = longSleeveBlack[1]
-                destVC.mediumLabelValue = longSleeveBlack[2]
-                destVC.largeLabelValue  = longSleeveBlack[0]
-            case 3:
-                //LongSleeveWhite
-                destVC.itemPathName     = stockNameArrayKeys[3]
-                destVC.smallLabelValue  = longSleeveWhite[1]
-                destVC.mediumLabelValue = longSleeveWhite[2]
-                destVC.largeLabelValue  = longSleeveWhite[0]
-            case 4:
-                //Beanie
-                destVC.itemPathName     = stockNameArrayKeys[9]
-                destVC.smallLabelValue  = stockDataResponse.Beanie
-                destVC.isAccessory      = true
-                
-            case 5:
-                //Cap
-                destVC.itemPathName     = stockNameArrayKeys[4]
-                destVC.smallLabelValue  = stockDataResponse.Cap // using the response data to add the default value to the edit view
-                destVC.isAccessory      = true
-            case 6:
-                //Mask
-                destVC.itemPathName     = stockNameArrayKeys[1]
-                destVC.smallLabelValue  = stockDataResponse.Mask
-                destVC.isAccessory      = true
-            case 7:
-                //Tote
-                destVC.itemPathName     = stockNameArrayKeys[12]
-                destVC.smallLabelValue  = stockDataResponse.Tote
-                destVC.isAccessory      = true
-                
-                
-            case 8:
-                //PostageBag
-                destVC.itemPathName     = stockNameArrayKeys[8]
-                destVC.smallLabelValue  = stockDataResponse.PostalBag
-                destVC.isAccessory      = true
-                
-                
-            case 9:
-                //MaskPostageBag
-                destVC.itemPathName     = stockNameArrayKeys[6]
-                destVC.smallLabelValue  = stockDataResponse.MaskPostalBag
-                destVC.isAccessory      = true
-                
-                
-            case 10:
-                //ClearBag
-                destVC.itemPathName     = stockNameArrayKeys[13]
-                destVC.smallLabelValue  = stockDataResponse.ClearBag
-                destVC.isAccessory      = true
-                
-            case 11:
-                //CustomsForm
-                destVC.itemPathName     = stockNameArrayKeys[11]
-                destVC.smallLabelValue  = stockDataResponse.CustomsForm
-                destVC.isAccessory      = true
-                
-                
-            case 12:
-                //CustomsFormTracked
-                destVC.itemPathName     = stockNameArrayKeys[5]
-                destVC.smallLabelValue  = stockDataResponse.CustomsFormTracked
-                destVC.isAccessory      = true
-                
-                
-            case 13:
-                //ThermalLabel
-                destVC.itemPathName     = stockNameArrayKeys[10]
-                destVC.smallLabelValue  = stockDataResponse.ThermalLabel
-                destVC.isAccessory      = true
-                
-            default:
-                break
-            }
-            
-            
-            
-            
-        }
-        let navController = UINavigationController(rootViewController: destVC)
-        present(navController, animated: true)
-    }
-    
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        let offsetY       = scrollView.contentOffset.y
-        let contentHeight = scrollView.contentSize.height + 200
-        let height        = scrollView.frame.size.height + 200
-        // the height of our screen
-        
-        if offsetY > contentHeight - height + 100 {
-            getStocks()
-            getData()
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
-            }
-            
-        }
-        
-        
-    }}
-
-
 
 extension Stocks: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
