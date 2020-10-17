@@ -150,8 +150,13 @@ func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath:
     cell.avatarImageView.image = UIImage(named: stockDataResponse.shirtImages[indexPath.row])
     cell.titleLabel.text  = stockDataResponse.shirtNames[indexPath.row]
     
+//    if stockDataResponse.issearching == true {cell.titleLabel.text = self.searchContacts[indexPath.row]}
+//    else {cell.titleLabel.text = nameArray[indexPath.row]}
+//    return cell
     
-    convertShirtValues { (longSleeveBlack, longSleeveWhite, shortSleeveWhite, shortSleeveBlack) in
+    convertShirtValues { [weak self] (longSleeveBlack, longSleeveWhite, shortSleeveWhite, shortSleeveBlack) in
+        guard self != nil else {return}
+
         switch indexPath.row {
             
         case 0:
@@ -293,65 +298,65 @@ func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPat
             //Beanie
             destVC.itemPathName     = stockNameArrayKeys[9]
             destVC.smallLabelValue  = stockDataResponse.Beanie
-            destVC.isAccessory      = true
+            stockDataResponse.isAccessoryEditStocks      = true
             
         case 5:
             //Cap
             destVC.itemPathName     = stockNameArrayKeys[4]
             destVC.smallLabelValue  = stockDataResponse.Cap // using the response data to add the default value to the edit view
-            destVC.isAccessory      = true
+            stockDataResponse.isAccessoryEditStocks      = true
         case 6:
             //Mask
             destVC.itemPathName     = stockNameArrayKeys[1]
             destVC.smallLabelValue  = stockDataResponse.Mask
-            destVC.isAccessory      = true
+            stockDataResponse.isAccessoryEditStocks      = true
         case 7:
             //Tote
             destVC.itemPathName     = stockNameArrayKeys[12]
             destVC.smallLabelValue  = stockDataResponse.Tote
-            destVC.isAccessory      = true
-            
+            stockDataResponse.isAccessoryEditStocks      = true
+
             
         case 8:
             //PostageBag
             destVC.itemPathName     = stockNameArrayKeys[8]
             destVC.smallLabelValue  = stockDataResponse.PostalBag
-            destVC.isAccessory      = true
-            
+            stockDataResponse.isAccessoryEditStocks      = true
+
             
         case 9:
             //MaskPostageBag
             destVC.itemPathName     = stockNameArrayKeys[6]
             destVC.smallLabelValue  = stockDataResponse.MaskPostalBag
-            destVC.isAccessory      = true
-            
+            stockDataResponse.isAccessoryEditStocks      = true
+
             
         case 10:
             //ClearBag
             destVC.itemPathName     = stockNameArrayKeys[13]
             destVC.smallLabelValue  = stockDataResponse.ClearBag
-            destVC.isAccessory      = true
-            
+            stockDataResponse.isAccessoryEditStocks      = true
+
         case 11:
             //CustomsForm
             destVC.itemPathName     = stockNameArrayKeys[11]
             destVC.smallLabelValue  = stockDataResponse.CustomsForm
-            destVC.isAccessory      = true
-            
+            stockDataResponse.isAccessoryEditStocks      = true
+
             
         case 12:
             //CustomsFormTracked
             destVC.itemPathName     = stockNameArrayKeys[5]
             destVC.smallLabelValue  = stockDataResponse.CustomsFormTracked
-            destVC.isAccessory      = true
-            
+            stockDataResponse.isAccessoryEditStocks      = true
+
             
         case 13:
             //ThermalLabel
             destVC.itemPathName     = stockNameArrayKeys[10]
             destVC.smallLabelValue  = stockDataResponse.ThermalLabel
-            destVC.isAccessory      = true
-            
+            stockDataResponse.isAccessoryEditStocks      = true
+
         default:
             break
         }

@@ -43,7 +43,15 @@ struct StockQuantity {
     let shortSleeveMedium      :String
     let shortSleeveLarge       :String
     let isAccessory            :Bool
-
+    var isSmallTapped           = false
+    var isMediumTapped          = false
+    var isLargeTapped           = false
+    var isAccessoryEditStocks   = false
+    
+    
+    
+    
+        
 
     init(dictionary:[String:AnyObject]) {
 
@@ -79,7 +87,6 @@ struct StockQuantity {
         self.shortSleeveLarge        = "Short Sleeve - Large"
         self.coloursArray            = [Colours.lime,Colours.loginBackground,Colours.loginButton,Colours.orange,Colours.peach,Colours.pink,Colours.teal,Colours.yellow]
         self.isAccessory             = false
-        
         
     }
 

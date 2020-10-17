@@ -41,6 +41,36 @@ struct StockQuantityViewModel {
     let shortSleeveSmall       :String
     let shortSleeveMedium      :String
     let shortSleeveLarge       :String
+    var isSmallTapped          = false
+    var isMediumTapped         = false
+    var isLargeTapped          = false
+    var isAccessoryEditStocks  = false
+    let images = [["Short Sleeve - Black":UIImage(named: "blacktshirt")],
+                    ["Short Sleeve - White":UIImage(named: "whitetshirt")],
+                    ["Long Sleeve - Black":UIImage(named: "longsleeveblackshirt")],
+                    ["Long Sleeve - White":UIImage(named: "longsleevewhiteshirt")],
+                    ["Beanie":UIImage(named: "beanie")],
+                    ["Cap":UIImage(named: "hat")],
+                    ["Mask":UIImage(named: "mask")],
+                    ["Totebag":UIImage(named: "totebag")],
+                    ["Postage Bag":UIImage(named: "Postage Bag")],
+                    ["Mask Postage Bag":UIImage(named: "Mask Postage Bag")],
+                    ["Clear Bag":UIImage(named: "Clear Bag")],
+                    ["Customs Form":UIImage(named: "Customs Form")],
+                    ["Customs Form Tracked":UIImage(named: "Customs Form Tracked")],
+                    ["Thermal Labels":UIImage(named: "Thermal Labels")],]
+      
+      var filteredImages = [[String:UIImage]]()
+      var issearching    = false
+      var filter         = [[String:UIImage]]() // filter array
+
+    
+    
+    
+    
+    
+    
+    
     
     
     init(stockQuantity:StockQuantity) {
