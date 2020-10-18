@@ -154,15 +154,15 @@ func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath:
 //    else {cell.titleLabel.text = nameArray[indexPath.row]}
 //    return cell
     
-    convertShirtValues { [weak self] (longSleeveBlack, longSleeveWhite, shortSleeveWhite, shortSleeveBlack) in
-        guard self != nil else {return}
+    
 
         switch indexPath.row {
             
         case 0:
+            // These values match the databse indexes so thats why the n umbers vary... note to future self
             //ShortSleeveBlack
-            cell.smallLabelValue.text  = String(shortSleeveBlack[1])
-            cell.mediumLabelValue.text = String(shortSleeveBlack[2])
+            cell.smallLabelValue.text  = String(shortSleeveBlack[2])
+            cell.mediumLabelValue.text = String(shortSleeveBlack[1])
             cell.LargeLabelValue.text  = String(shortSleeveBlack[0])
             cell.smallLabel.text  = sizes[0]
             cell.mediumLabel.text = sizes[1]
@@ -170,9 +170,9 @@ func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath:
             
         case 1:
             //ShortSleeveWhite
-            cell.smallLabelValue.text  = String(shortSleeveWhite[1])
+            cell.smallLabelValue.text  = String(shortSleeveWhite[0])
             cell.mediumLabelValue.text = String(shortSleeveWhite[2])
-            cell.LargeLabelValue.text  = String(shortSleeveWhite[0])
+            cell.LargeLabelValue.text  = String(shortSleeveWhite[1])
             cell.smallLabel.text  = sizes[0]
             cell.mediumLabel.text = sizes[1]
             cell.LargeLabel.text  = sizes[2]
@@ -188,9 +188,9 @@ func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath:
         case 3:
             
             //LongSleeveWhite
-            cell.smallLabelValue.text  = String(longSleeveWhite[1])
-            cell.mediumLabelValue.text = String(longSleeveWhite[2])
-            cell.LargeLabelValue.text  = String(longSleeveWhite[0])
+            cell.smallLabelValue.text  = String(longSleeveWhite[0])
+            cell.mediumLabelValue.text = String(longSleeveWhite[1])
+            cell.LargeLabelValue.text  = String(longSleeveWhite[2])
             cell.smallLabel.text  = sizes[0]
             cell.mediumLabel.text = sizes[1]
             cell.LargeLabel.text  = sizes[2]
@@ -251,7 +251,7 @@ func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath:
             
         default:
             break
-        }
+        
         
     }
     
@@ -263,25 +263,24 @@ func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPat
     let imageNamePath = stockDataResponse.shirtImages[indexPath.row]
     let shirtNamePath = stockDataResponse.shirtNames[indexPath.row]
     let destVC  = EditStocks()
-    destVC.backgroundColour = stockDataResponse.coloursArray.randomElement()
-    destVC.itemImageName    = imageNamePath
-    destVC.itemName         = shirtNamePath // The item name for the text value
+    destVC.backgroundColour  = stockDataResponse.coloursArray.randomElement()
+    destVC.itemImageName     = imageNamePath
+    destVC.itemName          = shirtNamePath // The item name for the text value
     
-    convertShirtValues { (longSleeveBlack, longSleeveWhite, shortSleeveWhite, shortSleeveBlack) in
         // using the return values for the tshirts we pass the s,m,l labels to the databse values, I did this because we had to parse the dictionary data
         switch indexPath.row {
         case 0:
             // ShortSleeveBlack
             destVC.itemPathName     = stockNameArrayKeys[0]
-            destVC.smallLabelValue  = shortSleeveBlack[1]
-            destVC.mediumLabelValue = shortSleeveBlack[2]
+            destVC.smallLabelValue  = shortSleeveBlack[2]
+            destVC.mediumLabelValue = shortSleeveBlack[1]
             destVC.largeLabelValue  = shortSleeveBlack[0]
         case 1:
             // ShortSleeveWhite
             destVC.itemPathName     = stockNameArrayKeys[2]
-            destVC.smallLabelValue  = shortSleeveWhite[1]
+            destVC.smallLabelValue  = shortSleeveWhite[0]
             destVC.mediumLabelValue = shortSleeveWhite[2]
-            destVC.largeLabelValue  = shortSleeveWhite[0]
+            destVC.largeLabelValue  = shortSleeveWhite[1]
         case 2:
             //LongSleeveBlack
             destVC.itemPathName     = stockNameArrayKeys[7]
@@ -291,30 +290,37 @@ func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPat
         case 3:
             //LongSleeveWhite
             destVC.itemPathName     = stockNameArrayKeys[3]
-            destVC.smallLabelValue  = longSleeveWhite[1]
-            destVC.mediumLabelValue = longSleeveWhite[2]
-            destVC.largeLabelValue  = longSleeveWhite[0]
+            destVC.smallLabelValue  = longSleeveWhite[0]
+            destVC.mediumLabelValue = longSleeveWhite[1]
+            destVC.largeLabelValue  = longSleeveWhite[2]
         case 4:
             //Beanie
             destVC.itemPathName     = stockNameArrayKeys[9]
             destVC.smallLabelValue  = stockDataResponse.Beanie
             stockDataResponse.isAccessoryEditStocks      = true
+            destVC.isAccessory      = true
+
             
         case 5:
             //Cap
             destVC.itemPathName     = stockNameArrayKeys[4]
             destVC.smallLabelValue  = stockDataResponse.Cap // using the response data to add the default value to the edit view
             stockDataResponse.isAccessoryEditStocks      = true
+            destVC.isAccessory      = true
+
         case 6:
             //Mask
             destVC.itemPathName     = stockNameArrayKeys[1]
             destVC.smallLabelValue  = stockDataResponse.Mask
             stockDataResponse.isAccessoryEditStocks      = true
+            destVC.isAccessory      = true
+
         case 7:
             //Tote
             destVC.itemPathName     = stockNameArrayKeys[12]
             destVC.smallLabelValue  = stockDataResponse.Tote
             stockDataResponse.isAccessoryEditStocks      = true
+            destVC.isAccessory      = true
 
             
         case 8:
@@ -322,6 +328,8 @@ func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPat
             destVC.itemPathName     = stockNameArrayKeys[8]
             destVC.smallLabelValue  = stockDataResponse.PostalBag
             stockDataResponse.isAccessoryEditStocks      = true
+            destVC.isAccessory      = true
+
 
             
         case 9:
@@ -329,6 +337,8 @@ func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPat
             destVC.itemPathName     = stockNameArrayKeys[6]
             destVC.smallLabelValue  = stockDataResponse.MaskPostalBag
             stockDataResponse.isAccessoryEditStocks      = true
+            destVC.isAccessory      = true
+
 
             
         case 10:
@@ -336,12 +346,16 @@ func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPat
             destVC.itemPathName     = stockNameArrayKeys[13]
             destVC.smallLabelValue  = stockDataResponse.ClearBag
             stockDataResponse.isAccessoryEditStocks      = true
+            destVC.isAccessory      = true
+
 
         case 11:
             //CustomsForm
             destVC.itemPathName     = stockNameArrayKeys[11]
             destVC.smallLabelValue  = stockDataResponse.CustomsForm
             stockDataResponse.isAccessoryEditStocks      = true
+            destVC.isAccessory      = true
+
 
             
         case 12:
@@ -349,6 +363,8 @@ func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPat
             destVC.itemPathName     = stockNameArrayKeys[5]
             destVC.smallLabelValue  = stockDataResponse.CustomsFormTracked
             stockDataResponse.isAccessoryEditStocks      = true
+            destVC.isAccessory      = true
+
 
             
         case 13:
@@ -356,15 +372,14 @@ func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPat
             destVC.itemPathName     = stockNameArrayKeys[10]
             destVC.smallLabelValue  = stockDataResponse.ThermalLabel
             stockDataResponse.isAccessoryEditStocks      = true
+            destVC.isAccessory      = true
+
 
         default:
             break
-        }
-        
-        
-        
         
     }
+    
     let navController = UINavigationController(rootViewController: destVC)
     present(navController, animated: true)
 }

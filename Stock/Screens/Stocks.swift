@@ -25,6 +25,9 @@ class Stocks:UIViewController, UICollectionViewDataSource {
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
                 self.updateStocks()
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
             }
         }
         
@@ -35,6 +38,10 @@ class Stocks:UIViewController, UICollectionViewDataSource {
             print("DATA SET")
             //            updateStocks() // timing issue index crash
             collectionView.dataSource = self
+            longSleeveBlack    = stockDataResponse.LongSleeveBlack.map{$0.value}.sorted()
+            longSleeveWhite    = stockDataResponse.LongSleeveWhite.map{$0.value}.sorted()
+            shortSleeveWhite   = stockDataResponse.ShortSleeveWhite.map{$0.value}.sorted()
+            shortSleeveBlack   = stockDataResponse.ShortSleeveBlack.map{$0.value}.sorted()
         }
         
     }
@@ -54,6 +61,11 @@ class Stocks:UIViewController, UICollectionViewDataSource {
     let localTransactionValues = UserDefaults.standard
     var requestTransactionValues = [Int]()
     var valuesChanged = false
+    var longSleeveBlack  = [Int]()
+    var longSleeveWhite  = [Int]()
+    var shortSleeveWhite = [Int]()
+    var shortSleeveBlack = [Int]()
+    
     
     
     
@@ -118,24 +130,11 @@ class Stocks:UIViewController, UICollectionViewDataSource {
         UserService.shared.fetchStockQuantity { (result,keys)  in
             self.stockDataResponse  = StockQuantityViewModel.init(stockQuantity: result)
             self.stockNameArrayKeys = keys
-        }
-    }
-    
-    func convertShirtValues(completed:([Int],[Int],[Int],[Int]) -> Void) {
-        let longSleeveBlack  = stockDataResponse.LongSleeveBlack.map{$0.value}.sorted()
-        let longSleeveWhite  = stockDataResponse.LongSleeveWhite.map{$0.value}.sorted()
-        let shortSleeveWhite = stockDataResponse.ShortSleeveWhite.map{$0.value}.sorted()
-        let shortSleeveBlack = stockDataResponse.ShortSleeveBlack.map{$0.value}.sorted()
-        
-        completed(longSleeveBlack,longSleeveWhite,shortSleeveWhite,shortSleeveBlack)
-    }
-    
-    
+        }}
+
     
     func authorizeSale() -> [Int]{
         let testValues =  [2110932896, 2110013212, 2109397087, 2107656365, 2107656369, 2106657593, 2106212092, 2106195757, 2104468673, 2103684722, 2101760643]
-        //        guard let safeResponse   = dataResponse.map({$0.results[0...11].map{$0.transactionId}}) else {return} // get transaction value from request
-        //        requestTransactionValues = safeResponse // get transaction value from request
         let name = "localTransactionValue"
         let localTransVal = localTransactionValues.object(forKey: name) as! [Int]
         let difference    = requestTransactionValues.difference(from:localTransVal).insertions // returns an array of values that are different in comparison
@@ -166,7 +165,6 @@ class Stocks:UIViewController, UICollectionViewDataSource {
         }
         
         
-        
         print("DEBUG: REQUEST TRANS VALUE = \(requestTransactionValues)")
         print("DEBUG: LOCAL TRANS VALUE   = \(localTransactionValues.object(forKey: name)!)")
         print("DEBUG: CHANGEDINDEX        = \(changedIndex)")
@@ -178,7 +176,8 @@ class Stocks:UIViewController, UICollectionViewDataSource {
     func updateStocks() {
         
         for values in authorizeSale() {
-            update(values: values)
+            updateShirts(values: values)
+            updateAccessories(values: values)
             // create a way to authorize values
             print("DEBUG: VALUESTEST = \(values)")
             
@@ -187,19 +186,64 @@ class Stocks:UIViewController, UICollectionViewDataSource {
         
     }
     
-    func update(values:Int) {
+    func updateAccessories(values:Int) {
+        
+        let path              = dataResponse.results[values].title
+        let quantityPath      = dataResponse.results[values].quantity
+        let tagsPath          = dataResponse.results[values].tags
+        let pricePath         = dataResponse.results[values].price
+        
+        print("DEBUG: price  = \(pricePath)")
+        
+        func compress() {
+            UserService.shared.updateAccessoryStockQuantity(Name: "ClearBag", value: stockDataResponse.ClearBag - quantityPath)
+            UserService.shared.updateAccessoryStockQuantity(Name: "PostalBag", value: stockDataResponse.PostalBag - quantityPath)
+            UserService.shared.updateAccessoryStockQuantity(Name: "ThermalLabel", value: stockDataResponse.ThermalLabel - quantityPath)
+        }
+        
+        //                    caps
+        if path.contains(stockDataResponse.caps) || tagsPath.contains(stockDataResponse.caps){
+            UserService.shared.updateAccessoryStockQuantity(Name: "Cap", value: stockDataResponse.Cap - quantityPath)
+            compress()
+            print("This is a cap purchase")
+            // set value for ui and database, also set value for masks bag and such
+        }
         
         
-        convertShirtValues { (longSleeveBlack, longSleeveWhite, shortSleeveWhite, shortSleeveBlack) in
+        //                    masks
+        if path.contains(stockDataResponse.masks) || tagsPath.contains(stockDataResponse.masks) {
+            print("This is a mask purchase")
+            UserService.shared.updateAccessoryStockQuantity(Name: "Mask", value: stockDataResponse.Mask - quantityPath)
+            UserService.shared.updateAccessoryStockQuantity(Name: "Mask", value: stockDataResponse.MaskPostalBag - quantityPath)
+        }
+        
+        //                    beanie
+        
+        if path.contains(stockDataResponse.beanie) || tagsPath.contains(stockDataResponse.beanie) {
+            UserService.shared.updateAccessoryStockQuantity(Name: "Beanie", value: stockDataResponse.Beanie - quantityPath)
+            compress()
+            print("This is a beanie purchase")
             
+        }
+        
+        //                    tote
+        
+        if path.contains(stockDataResponse.tote) || tagsPath.contains(stockDataResponse.tote) {
+            UserService.shared.updateAccessoryStockQuantity(Name: "Tote", value: stockDataResponse.Tote - quantityPath)
+            compress()
+            print("This is a tote purchase")
+        }
+    }
+    
+    
+    func updateShirts(values:Int) {
+        
             
-            let path              = dataResponse.results[values].title
             guard let sizePath    = dataResponse.results[values].variations[safe:0]?.formattedValue else {return}   // fix the index crashing
             guard let colourPath  = dataResponse.results[values].variations[safe:1]?.formattedValue else {return} // fix index crashing
             let quantityPath      = dataResponse.results[values].quantity
-            let tagsPath          = dataResponse.results[values].tags
-            // let pricePath         = dataResponse.results[values].price
-            //                    print("DEBUG: QUANTITY PATH  = \(quantityPath)")
+             let pricePath        = dataResponse.results[values].price
+                                print("DEBUG: price  = \(pricePath)")
             
             func compress() {
                 UserService.shared.updateAccessoryStockQuantity(Name: "ClearBag", value: stockDataResponse.ClearBag - quantityPath)
@@ -297,45 +341,10 @@ class Stocks:UIViewController, UICollectionViewDataSource {
                 print("This shirt is a longSleeveLarge white")
             }
             
-            //                    caps
-            if path.contains(stockDataResponse.caps) || tagsPath.contains(stockDataResponse.caps){
-                UserService.shared.updateAccessoryStockQuantity(Name: "Cap", value: stockDataResponse.Cap - quantityPath)
-                compress()
-                print("This is a cap purchase")
-                // set value for ui and database, also set value for masks bag and such
-            }
-            
-            
-            //                    masks
-            if path.contains(stockDataResponse.masks) || tagsPath.contains(stockDataResponse.masks) {
-                print("This is a mask purchase")
-                UserService.shared.updateAccessoryStockQuantity(Name: "Mask", value: stockDataResponse.Mask - quantityPath)
-                UserService.shared.updateAccessoryStockQuantity(Name: "Mask", value: stockDataResponse.MaskPostalBag - quantityPath)
-            }
-            
-            //                    beanie
-            
-            if path.contains(stockDataResponse.beanie) || tagsPath.contains(stockDataResponse.beanie) {
-                UserService.shared.updateAccessoryStockQuantity(Name: "Beanie", value: stockDataResponse.Beanie - quantityPath)
-                compress()
-                print("This is a beanie purchase")
-                
-            }
-            
-            //                    tote
-            
-            if path.contains(stockDataResponse.tote) || tagsPath.contains(stockDataResponse.tote) {
-                UserService.shared.updateAccessoryStockQuantity(Name: "Tote", value: stockDataResponse.Tote - quantityPath)
-                compress()
-                print("This is a tote purchase")
-            }
-        }
+          
+        
         
     }
-    
-    
-    
-    
     
     
     
@@ -349,11 +358,7 @@ class Stocks:UIViewController, UICollectionViewDataSource {
         if offsetY > contentHeight - height + 200 {
             getStocks()
             getData()
-            updateStocks()
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
-            }
-            
+            updateStocks()  
         }
         
         
@@ -365,7 +370,12 @@ class Stocks:UIViewController, UICollectionViewDataSource {
     }
     
     @objc func reloadCollectionView() {
-        getStocks()        
+        getStocks()
+        getData()
+        updateStocks()
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
     }
     
     

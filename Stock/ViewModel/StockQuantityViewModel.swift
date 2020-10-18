@@ -41,10 +41,10 @@ struct StockQuantityViewModel {
     let shortSleeveSmall       :String
     let shortSleeveMedium      :String
     let shortSleeveLarge       :String
-    var isSmallTapped          = false
-    var isMediumTapped         = false
-    var isLargeTapped          = false
-    var isAccessoryEditStocks  = false
+    var isSmallTapped          :Bool
+    var isMediumTapped         :Bool
+    var isLargeTapped          :Bool
+    var isAccessoryEditStocks  :Bool
     let images = [["Short Sleeve - Black":UIImage(named: "blacktshirt")],
                     ["Short Sleeve - White":UIImage(named: "whitetshirt")],
                     ["Long Sleeve - Black":UIImage(named: "longsleeveblackshirt")],
@@ -105,6 +105,10 @@ struct StockQuantityViewModel {
         self.shortSleeveMedium         = stockQuantity.shortSleeveMedium
         self.shortSleeveLarge          = stockQuantity.shortSleeveLarge
         self.coloursArray              = stockQuantity.coloursArray
+        self.isSmallTapped             = false
+        self.isMediumTapped            = false
+        self.isLargeTapped             = false
+        self.isAccessoryEditStocks     = false
         
     }
     

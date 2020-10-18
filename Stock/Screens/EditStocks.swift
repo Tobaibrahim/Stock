@@ -232,21 +232,29 @@ class EditStocks:UIViewController {
 
     }
     
-
-    
     @objc func plusButtonPressed () {
     print("plus button pressed")
+        
         if isSmallTapped {
             smallLabelValue += 1
+            if smallLabelValue < 0 {
+                smallLabelValue = 0
+            }
             itemValueLabelSmall.text = String(smallLabelValue)
         }
         
         if isMediumTapped {
             mediumLabelValue += 1
+            if mediumLabelValue < 0 {
+                mediumLabelValue = 0
+            }
             itemValueLabelMedium.text = String(mediumLabelValue)
         }
         if isLargeTapped {
             largeLabelValue += 1
+            if largeLabelValue < 0 {
+                largeLabelValue = 0
+            }
             itemValueLabelLarge.text = String(largeLabelValue)
         }
         
@@ -256,15 +264,24 @@ class EditStocks:UIViewController {
     print("minus button pressed")
         if isSmallTapped {
             smallLabelValue -= 1
+            if smallLabelValue < 0 {
+                smallLabelValue = 0
+            }
             itemValueLabelSmall.text = String(smallLabelValue)
         }
         
         if isMediumTapped {
             mediumLabelValue -= 1
+            if mediumLabelValue < 0 {
+                mediumLabelValue = 0
+            }
             itemValueLabelMedium.text = String(mediumLabelValue)
         }
         if isLargeTapped  {
             largeLabelValue -= 1
+            if largeLabelValue < 0 {
+                largeLabelValue = 0
+            }
             itemValueLabelLarge.text = String(largeLabelValue)
         }
     }
@@ -273,20 +290,17 @@ class EditStocks:UIViewController {
     @objc func saveButtonPressed () {
         print("save button pressed")
         
-        if isLargeTapped || isMediumTapped || isSmallTapped{
+        if isLargeTapped || isMediumTapped || isSmallTapped {
             UserService.shared.updateShirtStockQuantity(Name: itemPathName, small: smallLabelValue, medium: mediumLabelValue, large: largeLabelValue)
-            
-            let name = Notification.Name(rawValue: notificationKeys.reloadCollectionView)
-            NotificationCenter.default.post(name: name, object: nil)
         }
         
         
         if isAccessory && isSmallTapped {
             UserService.shared.updateAccessoryStockQuantity(Name: itemPathName, value: smallLabelValue)
-            let name = Notification.Name(rawValue: notificationKeys.reloadCollectionView)
-            NotificationCenter.default.post(name: name, object: nil)
         }
         
+        let name = Notification.Name(rawValue: notificationKeys.reloadCollectionView)
+                   NotificationCenter.default.post(name: name, object: nil)
         
         // add the name
         dismiss(animated: true)
