@@ -203,9 +203,11 @@ extension Stocks:UICollectionViewDelegate {
             cell.mediumLabel.text = sizes[1]
             cell.LargeLabel.text  = sizes[2]
             
-            if  shortSleeveBlack[2] != 0 || shortSleeveBlack[1] != 0 || shortSleeveBlack[0] != 0 {
-                cell.notificationIcon.isHidden = true
+            if  shortSleeveBlack[2] == 0 || shortSleeveBlack[1] == 0 || shortSleeveBlack[0] == 0 {
+                cell.notificationIcon.isHidden = false
             }
+            
+           
             
         case 1:
             //ShortSleeveWhite
@@ -216,9 +218,10 @@ extension Stocks:UICollectionViewDelegate {
             cell.mediumLabel.text = sizes[1]
             cell.LargeLabel.text  = sizes[2]
             
-            if  shortSleeveWhite[2] !=  0 || shortSleeveWhite[1] !=  0 || shortSleeveWhite[0] !=  0 {
-                cell.notificationIcon.isHidden = true
+            if  shortSleeveWhite[2] ==  0 || shortSleeveWhite[1] ==  0 || shortSleeveWhite[0] ==  0 {
+                cell.notificationIcon.isHidden = false
             }
+            
             
         case 2:
             //LongSleeveBlack
@@ -229,8 +232,8 @@ extension Stocks:UICollectionViewDelegate {
             cell.mediumLabel.text = sizes[1]
             cell.LargeLabel.text  = sizes[2]
             
-            if  longSleeveBlack[2] !=  0 || longSleeveBlack[1] !=  0 || longSleeveBlack[0] != 0 {
-                cell.notificationIcon.isHidden = true
+            if  longSleeveBlack[2] ==  0 || longSleeveBlack[1] ==  0 || longSleeveBlack[0] == 0 {
+                cell.notificationIcon.isHidden = false
             }
             
         case 3:
@@ -243,8 +246,8 @@ extension Stocks:UICollectionViewDelegate {
             cell.mediumLabel.text = sizes[1]
             cell.LargeLabel.text  = sizes[2]
             
-            if  longSleeveWhite[2] !=  0 || longSleeveWhite[1] !=  0 || longSleeveWhite[0] !=  0 {
-                cell.notificationIcon.isHidden = true
+            if  longSleeveWhite[2] ==  0 || longSleeveWhite[1] ==  0 || longSleeveWhite[0] ==  0 {
+                cell.notificationIcon.isHidden = false
             }
             
             
@@ -253,8 +256,8 @@ extension Stocks:UICollectionViewDelegate {
             stockDataResponse.isAccessory = true
             cell.mediumLabelValue.text = String(stockDataResponse.Beanie)
             
-            if  stockDataResponse.Beanie !=  0 {
-                cell.notificationIcon.isHidden = true
+            if  stockDataResponse.Beanie ==  0 {
+                cell.notificationIcon.isHidden = false
             }
             break
             
@@ -263,72 +266,72 @@ extension Stocks:UICollectionViewDelegate {
             //Cap
             stockDataResponse.isAccessory = true
             cell.mediumLabelValue.text = String(stockDataResponse.Cap)
-            if  stockDataResponse.Cap !=  0 {
-                cell.notificationIcon.isHidden = true
+            if  stockDataResponse.Cap ==  0 {
+                cell.notificationIcon.isHidden = false
             }
             
         case 6:
             //Mask
             stockDataResponse.isAccessory = true
             cell.mediumLabelValue.text = String(stockDataResponse.Mask)
-            if  stockDataResponse.Mask !=  0 {
-                cell.notificationIcon.isHidden = true
+            if  stockDataResponse.Mask ==  0 {
+                cell.notificationIcon.isHidden = false
             }
             
         case 7:
             //Tote
             stockDataResponse.isAccessory = true
             cell.mediumLabelValue.text = String(stockDataResponse.Tote)
-            if  stockDataResponse.Tote !=  0 {
-                cell.notificationIcon.isHidden = true
+            if  stockDataResponse.Tote ==  0 {
+                cell.notificationIcon.isHidden = false
             }
             
         case 8:
             //PostageBag
             stockDataResponse.isAccessory = true
             cell.mediumLabelValue.text = String(stockDataResponse.PostalBag)
-            if  stockDataResponse.PostalBag !=  0 {
-                cell.notificationIcon.isHidden = true
+            if  stockDataResponse.PostalBag ==  0 {
+                cell.notificationIcon.isHidden = false
             }
             
         case 9:
             //MaskPostageBag
             stockDataResponse.isAccessory = true
             cell.mediumLabelValue.text = String(stockDataResponse.MaskPostalBag)
-            if  stockDataResponse.MaskPostalBag !=  0 {
-                cell.notificationIcon.isHidden = true
+            if  stockDataResponse.MaskPostalBag ==  0 {
+                cell.notificationIcon.isHidden = false
             }
             
         case 10:
             //ClearBag
             stockDataResponse.isAccessory = true
             cell.mediumLabelValue.text = String(stockDataResponse.ClearBag)
-            if  stockDataResponse.ClearBag !=  0 {
-                cell.notificationIcon.isHidden = true
+            if  stockDataResponse.ClearBag ==  0 {
+                cell.notificationIcon.isHidden = false
             }
             
         case 11:
             //CustomsForm
             stockDataResponse.isAccessory = true
             cell.mediumLabelValue.text = String(stockDataResponse.CustomsForm)
-            if  stockDataResponse.CustomsForm !=  0 {
-                cell.notificationIcon.isHidden = true
+            if  stockDataResponse.CustomsForm ==  0 {
+                cell.notificationIcon.isHidden = false
             }
             
         case 12:
             //CustomsFormTracked
             stockDataResponse.isAccessory = true
             cell.mediumLabelValue.text = String(stockDataResponse.CustomsFormTracked)
-            if  stockDataResponse.CustomsFormTracked !=  0 {
-                cell.notificationIcon.isHidden = true
+            if  stockDataResponse.CustomsFormTracked ==  0 {
+                cell.notificationIcon.isHidden = false
             }
             
         case 13:
             //ThermalLabel
             stockDataResponse.isAccessory = true
             cell.mediumLabelValue.text = String(stockDataResponse.ThermalLabel)
-            if  stockDataResponse.ThermalLabel !=  0 {
-                cell.notificationIcon.isHidden = true
+            if  stockDataResponse.ThermalLabel ==  0 {
+                cell.notificationIcon.isHidden = false
             }
             
             

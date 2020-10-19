@@ -21,11 +21,13 @@ class StockCell: UICollectionViewCell {
     let mediumLabelValue = CustomTitleLabel(textAlignment: .center, fontsSize: 20)
     let LargeLabelValue  = CustomTitleLabel(textAlignment: .right, fontsSize: 20)
     
-    let notificationIcon: UIView = {
-        let notificationIcon = UIView()
-        notificationIcon.translatesAutoresizingMaskIntoConstraints = false
-        notificationIcon.backgroundColor = .systemPink
-        notificationIcon.layer.cornerRadius = 20 / 2
+    let notificationIcon: CustomImageView = {
+        let notificationIcon = CustomImageView(frame: .zero)
+        notificationIcon.image = UIImage(systemName: "0.circle.fill")
+        notificationIcon.layer.cornerRadius = 30 / 2
+//        notificationIcon.backgroundColor = .white
+        notificationIcon.tintColor = .red
+        notificationIcon.layer.borderColor = UIColor(red: 1.00, green: 1.00, blue: 1.00, alpha: 1.00).cgColor
                 
         return notificationIcon
         
@@ -42,7 +44,7 @@ class StockCell: UICollectionViewCell {
         smallLabelValue.text  = nil
         mediumLabelValue.text = nil
         LargeLabelValue.text  = nil
-        notificationIcon.isHidden      = false
+        notificationIcon.isHidden      = true
     }
     
     override init(frame: CGRect) {
@@ -94,7 +96,7 @@ class StockCell: UICollectionViewCell {
         LargeLabelValue.centerX(inView: contentView, topAnchor: LargeLabel.bottomAnchor, paddingTop: 5)
         LargeLabelValue.anchor(trailing: contentView.trailingAnchor,paddingRight: 20)
         
-        notificationIcon.setDimensions(width: 20, height: 20)
+        notificationIcon.setDimensions(width: 30, height: 30)
         notificationIcon.anchor(top: contentView.topAnchor, trailing: contentView.trailingAnchor, paddingTop: 10,paddingRight: 10)
         
         
