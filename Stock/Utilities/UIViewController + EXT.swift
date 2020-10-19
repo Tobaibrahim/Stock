@@ -34,6 +34,22 @@ func presentSafariVC(with url:URL) {
 }
 
 
+extension UIImageView {
+    
+    func dropShadow() {
+        self.layer.masksToBounds = false
+        self.layer.shadowColor = UIColor.black.cgColor
+        self.layer.shadowOpacity = 0.2
+        self.layer.shadowOffset = CGSize(width: 1, height: 1)
+        self.layer.shadowRadius = 20
+//        self.layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
+        self.layer.shouldRasterize = true
+        self.layer.rasterizationScale = UIScreen.main.scale
+        self.translatesAutoresizingMaskIntoConstraints = false
+    }
+}
+
+
 extension String {
        func deletingPrefix(_ prefix: String) -> String {
            guard self.hasPrefix(prefix) else { return self }
@@ -43,8 +59,6 @@ extension String {
 
 
 extension UIView {
-
-
 
 func anchor(top: NSLayoutYAxisAnchor? = nil,
             leading: NSLayoutXAxisAnchor? = nil,
@@ -384,11 +398,4 @@ func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPat
     present(navController, animated: true)
 }
 
-//extension Array where Element: Hashable {
-//    func difference(from other: [Element]) -> [Element] {
-//        let thisSet = Set(self)
-//        let otherSet = Set(other)
-//        return Array(thisSet.symmetricDifference(otherSet))
-//    }
-//}
 }

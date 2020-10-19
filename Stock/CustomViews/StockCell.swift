@@ -80,8 +80,12 @@ class StockCell: UICollectionViewCell {
         smallLabelValue.anchor(leading: contentView.leadingAnchor,paddingLeft: 20)
         LargeLabelValue.centerX(inView: contentView, topAnchor: LargeLabel.bottomAnchor, paddingTop: 5)
         LargeLabelValue.anchor(trailing: contentView.trailingAnchor,paddingRight: 20)
-        
+    
+        avatarImageView.dropShadow()
     }
+    
+    
+   
     
 }
 

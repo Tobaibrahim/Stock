@@ -70,6 +70,7 @@ class EditStocks:UIViewController {
     
     
     func configureAccessoriesUI() {
+        itemImage.dropShadow()
         view.backgroundColor = backgroundColour ?? Colours.orange
         navigationController?.navigationBar.isHidden = true
         view.addSubview(itemImage)
@@ -118,11 +119,11 @@ class EditStocks:UIViewController {
         smallLabel.textColor = .black
         smallLabel.text  = "Quantity"
        
-        
     }
     
     
     func configureUI() {
+        itemImage.dropShadow()
         print("DEBUG: ITEM PATH NAME = \(itemPathName!)")
         view.backgroundColor = backgroundColour ?? Colours.orange
         navigationController?.navigationBar.isHidden = true
@@ -258,6 +259,12 @@ class EditStocks:UIViewController {
             itemValueLabelLarge.text = String(largeLabelValue)
         }
         
+    }
+    
+    func tapped(value1:Bool,value2:Bool) -> Bool {
+    
+        
+        return false
     }
     
     @objc func minusButtonPressed () {
