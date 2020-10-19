@@ -56,6 +56,7 @@ class EditStocks:UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         if isAccessory == true {
             configureAccessoriesUI()
         }
@@ -70,6 +71,7 @@ class EditStocks:UIViewController {
     
     
     func configureAccessoriesUI() {
+        depletedStock(isEmpty: smallLabelValue, stockName: itemName)
         itemImage.dropShadow()
         view.backgroundColor = backgroundColour ?? Colours.orange
         navigationController?.navigationBar.isHidden = true
@@ -123,6 +125,9 @@ class EditStocks:UIViewController {
     
     
     func configureUI() {
+        depletedStock(isEmpty: smallLabelValue, stockName: "\(itemName!) (Small)")
+        depletedStock(isEmpty: mediumLabelValue, stockName: "\(itemName!) (Medium)")
+        depletedStock(isEmpty: largeLabelValue, stockName: "\(itemName!) (Large)")
         itemImage.dropShadow()
         print("DEBUG: ITEM PATH NAME = \(itemPathName!)")
         view.backgroundColor = backgroundColour ?? Colours.orange
@@ -199,6 +204,19 @@ class EditStocks:UIViewController {
         largeLabel.text  = "L"
         
 }
+    
+    func depletedStock(isEmpty:Int,stockName:String) {
+        if isEmpty == 0 {
+            CustomAlertOnMainThread(title: "Empty Stock", message: "Stocks for \(stockName) is Empty", buttonTitle: "OK")
+        }
+        
+        if isEmpty <= 5 {
+            CustomAlertOnMainThread(title: "Low Stock", message: "Stocks for \(stockName) is Low, Purchase more before stocks are gone", buttonTitle: "OK")
+        }
+        
+    }
+    
+    
     
     
     @objc func smallLabelTapped () {

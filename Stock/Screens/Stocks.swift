@@ -99,7 +99,7 @@ class Stocks:UIViewController, UICollectionViewDataSource {
         collectionView.backgroundColor = .systemBackground
         collectionView.register(StockCell.self, forCellWithReuseIdentifier:StockCell.reuseID)
         
-        let menuButton          = UIBarButtonItem(image: SFSymbols.menuButton, style: .done, target: self, action:#selector(Logout))
+        let menuButton          = UIBarButtonItem(image: SFSymbols.sleep, style: .done, target: self, action:#selector(Logout))
         menuButton.tintColor    = Colours.loginButton
         navigationItem.leftBarButtonItem  = menuButton
         collectionView.delegate   = self
@@ -137,14 +137,14 @@ class Stocks:UIViewController, UICollectionViewDataSource {
         let testValues =  [2110932896, 2110013212, 2109397087, 2107656365, 2107656369, 2106657593, 2106212092, 2106195757, 2104468673, 2103684722, 2101760643]
         let name = "localTransactionValue"
         let localTransVal = localTransactionValues.object(forKey: name) as! [Int]
-        let difference    = testValues.difference(from:localTransVal).insertions // returns an array of values that are different in comparison
+        let difference    = requestTransactionValues.difference(from:localTransVal).insertions // returns an array of values that are different in comparison
         var changedIndex  = [Int]() // value of index changes
         
         for values in difference { // we have to do this because the enums have the values wee need then we append the
             switch values {
             case.insert(let offset, _, _):
                 
-                if testValues == localTransVal  {
+                if requestTransactionValues == localTransVal  {
                     print("DEBUG: VALUES ARE THE SAME")
                     
                 }
@@ -154,7 +154,7 @@ class Stocks:UIViewController, UICollectionViewDataSource {
                     changedIndex.append(offset)
                     //                    completion(changedIndex)
                     
-                    localTransactionValues.set(testValues, forKey: name) // set new local value if values have changed
+                    localTransactionValues.set(requestTransactionValues, forKey: name) // set new local value if values have changed
                 }
             //                changedIndex.append(offset)
             case .remove(offset:_ , element: _, associatedWith:_):
@@ -176,23 +176,29 @@ class Stocks:UIViewController, UICollectionViewDataSource {
     func updateStocks() {
         
         for values in authorizeSale() {
-            updateShirts(values: values)
-            updateAccessories(values: values)
+            DispatchQueue.main.async {
+                self.updateShirts(values: values)
+                self.updateAccessories(values: values)
             // create a way to authorize values
             print("DEBUG: VALUESTEST = \(values)")
             
         }
         
+                }
         
     }
     
     func depletedAccessoryStock(isEmpty:Int,stockName:String) {
         if isEmpty == 0 {
             CustomAlertOnMainThread(title: "Empty Stock", message: "Stocks for \(stockName) is Empty", buttonTitle: "OK")
+            print("TRUE")
         }
         
         if isEmpty <= 5 {
             CustomAlertOnMainThread(title: "Low Stock", message: "Stocks for \(stockName) is Low, Purchase more before stocks are gone", buttonTitle: "OK")
+
+            print("TRUE")
+
         }
         
     }
@@ -201,10 +207,16 @@ class Stocks:UIViewController, UICollectionViewDataSource {
         
         if isEmpty == 0 {
             CustomAlertOnMainThread(title: "Empty Stock", message: "Stocks for \(stockName) is Empty", buttonTitle: "OK")
+
+            print("TRUE")
+
         }
         
         if isEmpty == 5 {
             CustomAlertOnMainThread(title: "Low Stock", message: "Stocks for \(stockName) is Low, Purchase more before stocks are gone", buttonTitle: "OK")
+
+            print("TRUE")
+
         }
         
     }
@@ -392,8 +404,7 @@ class Stocks:UIViewController, UICollectionViewDataSource {
             
     }
     
-    
-    
+
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         let offsetY       = scrollView.contentOffset.y

@@ -12,5 +12,7 @@ import UIKit
 
 enum SFSymbols {
     static let menuButton      = UIImage(systemName: "text.justify")
+    static let sleep           = UIImage(systemName: "moon.zzz")
+
     
 }

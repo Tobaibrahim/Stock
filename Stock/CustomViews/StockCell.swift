@@ -21,6 +21,18 @@ class StockCell: UICollectionViewCell {
     let mediumLabelValue = CustomTitleLabel(textAlignment: .center, fontsSize: 20)
     let LargeLabelValue  = CustomTitleLabel(textAlignment: .right, fontsSize: 20)
     
+    let notificationIcon: UIView = {
+        let notificationIcon = UIView()
+        notificationIcon.translatesAutoresizingMaskIntoConstraints = false
+        notificationIcon.backgroundColor = .systemPink
+        notificationIcon.layer.cornerRadius = 20 / 2
+                
+        return notificationIcon
+        
+    }()
+    
+    
+    
     override func prepareForReuse() {
         avatarImageView.image = nil
         titleLabel.text       = nil
@@ -30,6 +42,7 @@ class StockCell: UICollectionViewCell {
         smallLabelValue.text  = nil
         mediumLabelValue.text = nil
         LargeLabelValue.text  = nil
+        notificationIcon.isHidden      = false
     }
     
     override init(frame: CGRect) {
@@ -44,7 +57,7 @@ class StockCell: UICollectionViewCell {
     
     
     private func configure(){
-        let views = [avatarImageView,titleLabel,smallLabel,mediumLabel,LargeLabel,smallLabelValue,mediumLabelValue,LargeLabelValue]
+        let views = [avatarImageView,titleLabel,smallLabel,mediumLabel,LargeLabel,smallLabelValue,mediumLabelValue,LargeLabelValue,notificationIcon]
         for views in views {
             addSubview(views)
         }
@@ -53,16 +66,16 @@ class StockCell: UICollectionViewCell {
         contentView.backgroundColor = .systemRed
         contentView.layer.cornerRadius = 15
         avatarImageView.image = UIImage(named: "StockLogo")
-//        smallLabel.text  = "S"
-//        mediumLabel.text = "M"
-//        LargeLabel.text  = "L"
+        //        smallLabel.text  = "S"
+        //        mediumLabel.text = "M"
+        //        LargeLabel.text  = "L"
         
         NSLayoutConstraint.activate(
             [avatarImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: padding),
              avatarImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
              avatarImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
              avatarImageView.heightAnchor.constraint(lessThanOrEqualTo: avatarImageView.widthAnchor),
-                
+             
              titleLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 5),
              titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
              titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
@@ -74,18 +87,22 @@ class StockCell: UICollectionViewCell {
         smallLabel.anchor(leading: contentView.leadingAnchor,paddingLeft: 20)
         LargeLabel.centerX(inView: contentView, topAnchor: titleLabel.bottomAnchor, paddingTop: padding)
         LargeLabel.anchor(trailing: contentView.trailingAnchor,paddingRight: 20)
-
+        
         mediumLabelValue.centerX(inView: contentView, topAnchor: mediumLabel.bottomAnchor, paddingTop: 5)
         smallLabelValue.centerX(inView: contentView, topAnchor: smallLabel.bottomAnchor, paddingTop: 5)
         smallLabelValue.anchor(leading: contentView.leadingAnchor,paddingLeft: 20)
         LargeLabelValue.centerX(inView: contentView, topAnchor: LargeLabel.bottomAnchor, paddingTop: 5)
         LargeLabelValue.anchor(trailing: contentView.trailingAnchor,paddingRight: 20)
-    
+        
+        notificationIcon.setDimensions(width: 20, height: 20)
+        notificationIcon.anchor(top: contentView.topAnchor, trailing: contentView.trailingAnchor, paddingTop: 10,paddingRight: 10)
+        
+        
         avatarImageView.dropShadow()
     }
     
     
-   
+    
     
 }
 
