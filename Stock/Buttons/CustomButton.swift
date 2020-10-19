@@ -41,7 +41,6 @@ class CustomButton: UIButton {
         titleLabel?.font        = UIFont.preferredFont(forTextStyle: .headline)
         
         translatesAutoresizingMaskIntoConstraints = false
-        
     }
     
     func set(backgroundColour:UIColor,title:String) {

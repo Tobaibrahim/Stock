@@ -32,8 +32,8 @@ class EditStocks:UIViewController {
     var isMediumTapped = false
     var isLargeTapped  = false
 
-    let plusButton     = CustomButton(backgroundColor: Colours.loginButton, title: "+", size: 10)
-    let minusButton    = CustomButton(backgroundColor: Colours.loginButton, title: "-", size: 10)
+    let plusButton     = CustomButton(backgroundColor: Colours.loginButton, title: "+", size: 40)
+    let minusButton    = CustomButton(backgroundColor: Colours.loginButton, title: "-", size: 40)
     let saveButton     = CustomButton(backgroundColor: Colours.loginButton, title: "Save", size: 10)
     var smallLabelValue  = Int()
     var mediumLabelValue = Int()
