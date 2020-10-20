@@ -20,7 +20,7 @@ class Stocks:UIViewController, UICollectionViewDataSource {
     var dataResponse: ShopTransactionsResponse! {
         didSet {
             print("DATA SET")
-            guard let safeResponse   = dataResponse.map({$0.results[0...10].map{$0.transactionId}}) else {return} // get transaction value from request
+            guard let safeResponse   = dataResponse.map({$0.results[0...12].map{$0.transactionId}}) else {return} // get transaction value from request
             requestTransactionValues = safeResponse
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
@@ -82,7 +82,7 @@ class Stocks:UIViewController, UICollectionViewDataSource {
     
     
     func configureUI() {
-
+        
         view.addSubview(searchBar)
         createObservers()
         view.backgroundColor   = Colours.appWhite
@@ -92,7 +92,7 @@ class Stocks:UIViewController, UICollectionViewDataSource {
         tap.cancelsTouchesInView  = false
         
         searchBar.delegate        = self
-        navigationItem.titleView  = searchBar
+//        navigationItem.titleView  = searchBar
         
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createTwoColomnFlowLayout(in:self.view ))
         view.addSubview(collectionView)
@@ -131,7 +131,7 @@ class Stocks:UIViewController, UICollectionViewDataSource {
             self.stockDataResponse  = StockQuantityViewModel.init(stockQuantity: result)
             self.stockNameArrayKeys = keys
         }}
-
+    
     
     func authorizeSale() -> [Int]{
         let testValues =  [2110932896, 2110013212, 2109397087, 2107656365, 2107656369, 2106657593, 2106212092, 2106195757, 2104468673, 2103684722, 2101760643]
@@ -179,49 +179,19 @@ class Stocks:UIViewController, UICollectionViewDataSource {
             DispatchQueue.main.async {
                 self.updateShirts(values: values)
                 self.updateAccessories(values: values)
-            // create a way to authorize values
-            print("DEBUG: VALUESTEST = \(values)")
+                // create a way to authorize values
+                print("DEBUG: VALUESTEST = \(values)")
+                
+            }
             
         }
         
-                }
-        
     }
     
-    func depletedAccessoryStock(isEmpty:Int,stockName:String) {
-        if isEmpty == 0 {
-            CustomAlertOnMainThread(title: "Empty Stock", message: "Stocks for \(stockName) is Empty", buttonTitle: "OK")
-            print("TRUE")
-        }
-        
-        if isEmpty <= 5 {
-            CustomAlertOnMainThread(title: "Low Stock", message: "Stocks for \(stockName) is Low, Purchase more before stocks are gone", buttonTitle: "OK")
-
-            print("TRUE")
-
-        }
-        
-    }
     
-    func depletedShirtStock(isEmpty:Int,stockName:String) {
-        
-        if isEmpty == 0 {
-            CustomAlertOnMainThread(title: "Empty Stock", message: "Stocks for \(stockName) is Empty", buttonTitle: "OK")
-
-            print("TRUE")
-
-        }
-        
-        if isEmpty == 5 {
-            CustomAlertOnMainThread(title: "Low Stock", message: "Stocks for \(stockName) is Low, Purchase more before stocks are gone", buttonTitle: "OK")
-
-            print("TRUE")
-
-        }
-        
-    }
     
-        
+    
+    
     func updateAccessories(values:Int) {
         
         let path              = dataResponse.results[values].title
@@ -235,10 +205,7 @@ class Stocks:UIViewController, UICollectionViewDataSource {
             UserService.shared.updateAccessoryStockQuantity(Name: "ClearBag", value: stockDataResponse.ClearBag - quantityPath)
             UserService.shared.updateAccessoryStockQuantity(Name: "PostalBag", value: stockDataResponse.PostalBag - quantityPath)
             UserService.shared.updateAccessoryStockQuantity(Name: "ThermalLabel", value: stockDataResponse.ThermalLabel - quantityPath)
-            depletedAccessoryStock(isEmpty: stockDataResponse.ClearBag, stockName: "ClearBag")
-            depletedAccessoryStock(isEmpty: stockDataResponse.PostalBag, stockName: "PostalBag")
-            depletedAccessoryStock(isEmpty: stockDataResponse.ThermalLabel, stockName: "ThermalLabel")
-
+            
         }
         
         
@@ -246,7 +213,6 @@ class Stocks:UIViewController, UICollectionViewDataSource {
         if path.contains(stockDataResponse.caps) || tagsPath.contains(stockDataResponse.caps){
             UserService.shared.updateAccessoryStockQuantity(Name: "Cap", value: stockDataResponse.Cap - quantityPath)
             compress()
-            depletedAccessoryStock(isEmpty: stockDataResponse.Cap, stockName: "Cap")
             print("This is a cap purchase")
             // set value for ui and database, also set value for masks bag and such
         }
@@ -257,10 +223,8 @@ class Stocks:UIViewController, UICollectionViewDataSource {
             print("This is a mask purchase")
             UserService.shared.updateAccessoryStockQuantity(Name: "Mask", value: stockDataResponse.Mask - quantityPath)
             UserService.shared.updateAccessoryStockQuantity(Name: "MaskPostalBag", value: stockDataResponse.MaskPostalBag - quantityPath)
-            depletedAccessoryStock(isEmpty: stockDataResponse.Mask, stockName: "Mask")
-            depletedAccessoryStock(isEmpty: stockDataResponse.Mask, stockName: "MaskPostalBag")
-
-
+            
+            
         }
         
         //                    beanie
@@ -268,7 +232,6 @@ class Stocks:UIViewController, UICollectionViewDataSource {
         if path.contains(stockDataResponse.beanie) || tagsPath.contains(stockDataResponse.beanie) {
             UserService.shared.updateAccessoryStockQuantity(Name: "Beanie", value: stockDataResponse.Beanie - quantityPath)
             compress()
-            depletedAccessoryStock(isEmpty: stockDataResponse.Beanie, stockName: "Beanie")
             print("This is a beanie purchase")
             
         }
@@ -278,8 +241,6 @@ class Stocks:UIViewController, UICollectionViewDataSource {
         if path.contains(stockDataResponse.tote) || tagsPath.contains(stockDataResponse.tote) {
             UserService.shared.updateAccessoryStockQuantity(Name: "Tote", value: stockDataResponse.Tote - quantityPath)
             compress()
-            depletedAccessoryStock(isEmpty: stockDataResponse.Tote, stockName: "Tote")
-
             print("This is a tote purchase")
         }
     }
@@ -287,124 +248,112 @@ class Stocks:UIViewController, UICollectionViewDataSource {
     
     func updateShirts(values:Int) {
         
+        
+        guard let sizePath    = dataResponse.results[values].variations[safe:0]?.formattedValue else {return}   // fix the index crashing
+        guard let colourPath  = dataResponse.results[values].variations[safe:1]?.formattedValue else {return} // fix index crashing
+        let quantityPath      = dataResponse.results[values].quantity
+        let pricePath        = dataResponse.results[values].price
+        print("DEBUG: price  = \(pricePath)")
+        
+        func compress() {
+            UserService.shared.updateAccessoryStockQuantity(Name: "ClearBag", value: stockDataResponse.ClearBag - quantityPath)
+            UserService.shared.updateAccessoryStockQuantity(Name: "PostalBag", value: stockDataResponse.PostalBag - quantityPath)
+            UserService.shared.updateAccessoryStockQuantity(Name: "ThermalLabel", value: stockDataResponse.ThermalLabel - quantityPath)
+        }
+        
+        
+        //                    shortSleeveBlackSmall
+        if sizePath.contains(stockDataResponse.shortSleeveSmall) && colourPath.contains(stockDataResponse.black) {
+            print("This shirt is a shortSleeveSmall black")
+            UserService.shared.updateShirtStockQuantity(Name: "ShortSleeveBlack", small: shortSleeveBlack[2] - quantityPath, medium: shortSleeveBlack[1] , large: shortSleeveBlack[0])
+            compress()
+        }
+        
+        //                    shortSleeveBlackMedium
+        if sizePath.contains(stockDataResponse.shortSleeveMedium) && colourPath.contains(stockDataResponse.black) {
+            print("This shirt is a shortSleeveMedium")
+            UserService.shared.updateShirtStockQuantity(Name: "ShortSleeveBlack", small: shortSleeveBlack[2], medium: shortSleeveBlack[1] - quantityPath, large: shortSleeveBlack[0])
+            compress()
             
-            guard let sizePath    = dataResponse.results[values].variations[safe:0]?.formattedValue else {return}   // fix the index crashing
-            guard let colourPath  = dataResponse.results[values].variations[safe:1]?.formattedValue else {return} // fix index crashing
-            let quantityPath      = dataResponse.results[values].quantity
-             let pricePath        = dataResponse.results[values].price
-                                print("DEBUG: price  = \(pricePath)")
+        }
+        
+        //                    shortSleeveBlackLarge
+        if sizePath.contains(stockDataResponse.shortSleeveLarge) && colourPath.contains(stockDataResponse.black) {
+            UserService.shared.updateShirtStockQuantity(Name: "ShortSleeveBlack", small: shortSleeveBlack[2], medium: shortSleeveBlack[1], large: shortSleeveBlack[0] - quantityPath)
+            compress()
+            print("This shirt is a shortSleeveLarge black")
             
-            func compress() {
-                UserService.shared.updateAccessoryStockQuantity(Name: "ClearBag", value: stockDataResponse.ClearBag - quantityPath)
-                UserService.shared.updateAccessoryStockQuantity(Name: "PostalBag", value: stockDataResponse.PostalBag - quantityPath)
-                UserService.shared.updateAccessoryStockQuantity(Name: "ThermalLabel", value: stockDataResponse.ThermalLabel - quantityPath)
-            }
+        }
+        
+        //                    shortSleeveWhiteSmall
+        if sizePath.contains(stockDataResponse.shortSleeveSmall) && colourPath.contains(stockDataResponse.white) {
+            UserService.shared.updateShirtStockQuantity(Name: "ShortSleeveWhite", small: shortSleeveWhite[0] - quantityPath, medium: shortSleeveWhite[2], large: shortSleeveWhite[1])
+            compress()
+            print("This shirt is a shortSleeveSmall white")
             
+        }
+        
+        //                    shortSleeveWhiteMedium
+        if sizePath.contains(stockDataResponse.shortSleeveMedium) && colourPath.contains(stockDataResponse.white) {
+            UserService.shared.updateShirtStockQuantity(Name: "ShortSleeveWhite", small: shortSleeveWhite[0] , medium: shortSleeveWhite[2] - quantityPath, large: shortSleeveWhite[1])
+            compress()
+            print("This shirt is a shortSleeveMedium white")
             
-            //                    shortSleeveBlackSmall
-            if sizePath.contains(stockDataResponse.shortSleeveSmall) && colourPath.contains(stockDataResponse.black) {
-                print("This shirt is a shortSleeveSmall black")
-                UserService.shared.updateShirtStockQuantity(Name: "ShortSleeveBlack", small: shortSleeveBlack[2] - quantityPath, medium: shortSleeveBlack[1] , large: shortSleeveBlack[0])
-                depletedShirtStock(isEmpty: shortSleeveBlack[2], stockName: "ShortSleeve Black Small")
-                compress()
-            }
+        }
+        
+        //                    shortSleeveWhiteLarge
+        if sizePath.contains(stockDataResponse.shortSleeveLarge) && colourPath.contains(stockDataResponse.white) {
+            UserService.shared.updateShirtStockQuantity(Name: "ShortSleeveWhite", small: shortSleeveWhite[0] , medium: shortSleeveWhite[2] , large: shortSleeveWhite[1] - quantityPath)
+            compress()
+            print("This shirt is a shortSleeveLarge white")
             
-            //                    shortSleeveBlackMedium
-            if sizePath.contains(stockDataResponse.shortSleeveMedium) && colourPath.contains(stockDataResponse.black) {
-                print("This shirt is a shortSleeveMedium")
-                UserService.shared.updateShirtStockQuantity(Name: "ShortSleeveBlack", small: shortSleeveBlack[2], medium: shortSleeveBlack[1] - quantityPath, large: shortSleeveBlack[0])
-                depletedShirtStock(isEmpty: shortSleeveBlack[1], stockName: "ShortSleeve Black Medium")
-                compress()
-                
-            }
-            
-            //                    shortSleeveBlackLarge
-            if sizePath.contains(stockDataResponse.shortSleeveLarge) && colourPath.contains(stockDataResponse.black) {
-                UserService.shared.updateShirtStockQuantity(Name: "ShortSleeveBlack", small: shortSleeveBlack[2], medium: shortSleeveBlack[1], large: shortSleeveBlack[0] - quantityPath)
-                depletedShirtStock(isEmpty: shortSleeveBlack[0], stockName: "ShortSleeve Black Large")
-                compress()
-                print("This shirt is a shortSleeveLarge black")
-                
-            }
-            
-            //                    shortSleeveWhiteSmall
-            if sizePath.contains(stockDataResponse.shortSleeveSmall) && colourPath.contains(stockDataResponse.white) {
-                UserService.shared.updateShirtStockQuantity(Name: "ShortSleeveWhite", small: shortSleeveWhite[0] - quantityPath, medium: shortSleeveWhite[2], large: shortSleeveWhite[1])
-                depletedShirtStock(isEmpty: shortSleeveWhite[0], stockName: "ShortSleeve White Small")
-                compress()
-                print("This shirt is a shortSleeveSmall white")
-                
-            }
-            
-            //                    shortSleeveWhiteMedium
-            if sizePath.contains(stockDataResponse.shortSleeveMedium) && colourPath.contains(stockDataResponse.white) {
-                UserService.shared.updateShirtStockQuantity(Name: "ShortSleeveWhite", small: shortSleeveWhite[0] , medium: shortSleeveWhite[2] - quantityPath, large: shortSleeveWhite[1])
-                depletedShirtStock(isEmpty: shortSleeveWhite[2], stockName: "ShortSleeve White Medium")
-                compress()
-                print("This shirt is a shortSleeveMedium white")
-                
-            }
-            
-            //                    shortSleeveWhiteLarge
-            if sizePath.contains(stockDataResponse.shortSleeveLarge) && colourPath.contains(stockDataResponse.white) {
-                UserService.shared.updateShirtStockQuantity(Name: "ShortSleeveWhite", small: shortSleeveWhite[0] , medium: shortSleeveWhite[2] , large: shortSleeveWhite[1] - quantityPath)
-                depletedShirtStock(isEmpty: shortSleeveWhite[1], stockName: "ShortSleeve White Large")
-                compress()
-                print("This shirt is a shortSleeveLarge white")
-                
-            }
-            
-            //                    longSleeveBlackSmall
-            if sizePath.contains(stockDataResponse.longSleeveSmall) && colourPath.contains(stockDataResponse.black) {
-                UserService.shared.updateShirtStockQuantity(Name: "LongSleeveBlack", small: longSleeveBlack[1] - quantityPath , medium: longSleeveBlack[2] , large: longSleeveBlack[0])
-                depletedShirtStock(isEmpty: longSleeveBlack[1], stockName: "LongSleeve Black Small")
-                compress()
-                print("This shirt is a longSleeveSmall black")
-            }
-            
-            //                    longSleeveBlackMedium
-            if sizePath.contains(stockDataResponse.longSleeveMedium) && colourPath.contains(stockDataResponse.black) {
-                UserService.shared.updateShirtStockQuantity(Name: "LongSleeveBlack", small: longSleeveBlack[1] , medium: longSleeveBlack[2] - quantityPath, large: longSleeveBlack[0])
-                depletedShirtStock(isEmpty: longSleeveBlack[2], stockName: "LongSleeve Black Medium")
-                compress()
-                print("This shirt is a longSleeveMedium black")
-            }
-            
-            //                    longSleeveBlackLarge
-            if sizePath.contains(stockDataResponse.longSleeveLarge) && colourPath.contains(stockDataResponse.black) {
-                UserService.shared.updateShirtStockQuantity(Name: "LongSleeveBlack", small: longSleeveBlack[1] , medium: longSleeveBlack[2] , large: longSleeveBlack[0] - quantityPath)
-                depletedShirtStock(isEmpty: longSleeveBlack[0], stockName: "LongSleeve Black Large")
-                compress()
-                print("This shirt is a longSleeveLarge black")
-            }
-            
-            //                    longSleeveWhiteSmall
-            if sizePath.contains(stockDataResponse.longSleeveSmall) && colourPath.contains(stockDataResponse.white) {
-                UserService.shared.updateShirtStockQuantity(Name: "LongSleeveWhite", small: longSleeveWhite[0] - quantityPath, medium: longSleeveWhite[1] , large: longSleeveWhite[2])
-                depletedShirtStock(isEmpty: longSleeveBlack[0], stockName: "LongSleeve White Small")
-                compress()
-                print("This shirt is a longSleeveSmall white")
-            }
-            
-            //                    longSleeveWhiteMedium
-            if sizePath.contains(stockDataResponse.longSleeveMedium) && colourPath.contains(stockDataResponse.white) {
-                UserService.shared.updateShirtStockQuantity(Name: "LongSleeveWhite", small: longSleeveWhite[0], medium: longSleeveWhite[1] - quantityPath , large: longSleeveWhite[2])
-                depletedShirtStock(isEmpty: longSleeveBlack[1], stockName: "LongSleeve White Medium")
-                compress()
-                print("This shirt is a longSleeveMedium white")
-            }
-            
-            //                    longSleeveWhiteLarge
-            if sizePath.contains(stockDataResponse.longSleeveLarge) && colourPath.contains(stockDataResponse.white) {
-                UserService.shared.updateShirtStockQuantity(Name: "LongSleeveWhite", small: longSleeveWhite[0], medium: longSleeveWhite[1], large: longSleeveWhite[2] - quantityPath)
-                depletedShirtStock(isEmpty: longSleeveBlack[2], stockName: "LongSleeve White Large")
-                compress()
-                print("This shirt is a longSleeveLarge white")
-            }
-            
+        }
+        
+        //                    longSleeveBlackSmall
+        if sizePath.contains(stockDataResponse.longSleeveSmall) && colourPath.contains(stockDataResponse.black) {
+            UserService.shared.updateShirtStockQuantity(Name: "LongSleeveBlack", small: longSleeveBlack[1] - quantityPath , medium: longSleeveBlack[2] , large: longSleeveBlack[0])
+            compress()
+            print("This shirt is a longSleeveSmall black")
+        }
+        
+        //                    longSleeveBlackMedium
+        if sizePath.contains(stockDataResponse.longSleeveMedium) && colourPath.contains(stockDataResponse.black) {
+            UserService.shared.updateShirtStockQuantity(Name: "LongSleeveBlack", small: longSleeveBlack[1] , medium: longSleeveBlack[2] - quantityPath, large: longSleeveBlack[0])
+            compress()
+            print("This shirt is a longSleeveMedium black")
+        }
+        
+        //                    longSleeveBlackLarge
+        if sizePath.contains(stockDataResponse.longSleeveLarge) && colourPath.contains(stockDataResponse.black) {
+            UserService.shared.updateShirtStockQuantity(Name: "LongSleeveBlack", small: longSleeveBlack[1] , medium: longSleeveBlack[2] , large: longSleeveBlack[0] - quantityPath)
+            compress()
+            print("This shirt is a longSleeveLarge black")
+        }
+        
+        //                    longSleeveWhiteSmall
+        if sizePath.contains(stockDataResponse.longSleeveSmall) && colourPath.contains(stockDataResponse.white) {
+            UserService.shared.updateShirtStockQuantity(Name: "LongSleeveWhite", small: longSleeveWhite[0] - quantityPath, medium: longSleeveWhite[1] , large: longSleeveWhite[2])
+            compress()
+            print("This shirt is a longSleeveSmall white")
+        }
+        
+        //                    longSleeveWhiteMedium
+        if sizePath.contains(stockDataResponse.longSleeveMedium) && colourPath.contains(stockDataResponse.white) {
+            UserService.shared.updateShirtStockQuantity(Name: "LongSleeveWhite", small: longSleeveWhite[0], medium: longSleeveWhite[1] - quantityPath , large: longSleeveWhite[2])
+            compress()
+            print("This shirt is a longSleeveMedium white")
+        }
+        
+        //                    longSleeveWhiteLarge
+        if sizePath.contains(stockDataResponse.longSleeveLarge) && colourPath.contains(stockDataResponse.white) {
+            UserService.shared.updateShirtStockQuantity(Name: "LongSleeveWhite", small: longSleeveWhite[0], medium: longSleeveWhite[1], large: longSleeveWhite[2] - quantityPath)
+            compress()
+            print("This shirt is a longSleeveLarge white")
+        }
+        
     }
     
-
+    
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         let offsetY       = scrollView.contentOffset.y

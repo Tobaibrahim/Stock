@@ -180,7 +180,7 @@ extension Stocks:UICollectionViewDelegate {
         let sizes = ["S","M","L"]
         let cell  = collectionView.dequeueReusableCell(withReuseIdentifier: StockCell.reuseID, for: indexPath) as! StockCell
         
-        cell.contentView.backgroundColor = stockDataResponse.coloursArray.randomElement()
+        cell.contentView.backgroundColor = stockDataResponse.coloursArray[indexPath.row]
         cell.avatarImageView.image = UIImage(named: stockDataResponse.shirtImages[indexPath.row])
         cell.titleLabel.text  = stockDataResponse.shirtNames[indexPath.row]
         
@@ -188,7 +188,7 @@ extension Stocks:UICollectionViewDelegate {
         //    else {cell.titleLabel.text = nameArray[indexPath.row]}
         //    return cell
         
-        
+        cell.notificationIcon.isHidden = true
         
         switch indexPath.row {
             
@@ -349,7 +349,7 @@ extension Stocks:UICollectionViewDelegate {
         let imageNamePath = stockDataResponse.shirtImages[indexPath.row]
         let shirtNamePath = stockDataResponse.shirtNames[indexPath.row]
         let destVC  = EditStocks()
-        destVC.backgroundColour  = stockDataResponse.coloursArray.randomElement()
+        destVC.backgroundColour  = stockDataResponse.coloursArray[indexPath.row]
         destVC.itemImageName     = imageNamePath
         destVC.itemName          = shirtNamePath // The item name for the text value
         

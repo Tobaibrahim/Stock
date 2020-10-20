@@ -29,7 +29,7 @@ struct StockQuantity {
     let ClearBag               : Int
     let shirtImages            :[String]
     let shirtNames             :[String]
-    let coloursArray           :[UIColor]
+    var coloursArray           :[UIColor]
     let masks                  :String
     let caps                   :String
     let beanie                 :String
@@ -47,12 +47,9 @@ struct StockQuantity {
     var isMediumTapped          : Bool
     var isLargeTapped           : Bool
     var isAccessoryEditStocks   : Bool
+    let addedColours = [Colours.lime,Colours.loginBackground,Colours.loginButton,Colours.orange,Colours.peach,Colours.pink,Colours.teal,Colours.yellow]
     
     
-    
-    
-        
-
     init(dictionary:[String:AnyObject]) {
 
         self.LongSleeveBlack           = dictionary["LongSleeveBlack"] as? [String:Int] ??  ["":0]
@@ -91,6 +88,7 @@ struct StockQuantity {
         self.isMediumTapped          = false
         self.isLargeTapped           = false
         self.isAccessoryEditStocks   = false
+        coloursArray.append(contentsOf: addedColours)
     }
 
 }

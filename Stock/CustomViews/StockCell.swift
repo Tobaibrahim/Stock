@@ -80,7 +80,7 @@ class StockCell: UICollectionViewCell {
              
              titleLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 5),
              titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
-             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
+             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
              titleLabel.heightAnchor.constraint(equalToConstant: 20),
         ])
         

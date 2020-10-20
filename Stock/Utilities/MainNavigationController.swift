@@ -22,7 +22,8 @@ class MainNavigationController: UINavigationController {
 
     
     override func viewDidLoad() {
-        configureViewControllers()
+//        configureViewControllers()
+        authenticateUserAndConfigureUI()
     }
     
     //MARK: - Helpers
@@ -30,8 +31,6 @@ class MainNavigationController: UINavigationController {
     
     func configureViewControllers() {
 //        fetchUsers()
-        
-        
         let stocks         = Stocks()
         stocks.title       = "Stocks"
         let editStocks     = EditStocks()
@@ -50,9 +49,7 @@ class MainNavigationController: UINavigationController {
         }
 
         
-    
     func authenticateUserAndConfigureUI() {
-        
         
         if Auth.auth().currentUser == nil {
             print("DEBUG: User is not logged in")
@@ -70,9 +67,9 @@ class MainNavigationController: UINavigationController {
             
         else {
             CustomAlertOnMainThread(title: "Login Failed", message: "User is logged in on onother device", buttonTitle: "Okay")
-            
         }
     }
+    
     
     
     func logUserOut() {
