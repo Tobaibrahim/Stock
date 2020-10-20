@@ -19,7 +19,7 @@ class Stocks:UIViewController, UICollectionViewDataSource {
     
     var dataResponse: ShopTransactionsResponse! {
         didSet {
-            print("DATA SET")
+            print("DATA RESPONSE SET")
             guard let safeResponse   = dataResponse.map({$0.results[0...12].map{$0.transactionId}}) else {return} // get transaction value from request
             requestTransactionValues = safeResponse
             
@@ -35,13 +35,14 @@ class Stocks:UIViewController, UICollectionViewDataSource {
     
     var stockDataResponse: StockQuantityViewModel! {
         didSet {
-            print("DATA SET")
+            print("DATA STOCK RESPONSE SET")
             //            updateStocks() // timing issue index crash
-            collectionView.dataSource = self
             longSleeveBlack    = stockDataResponse.LongSleeveBlack.map{$0.value}.sorted()
             longSleeveWhite    = stockDataResponse.LongSleeveWhite.map{$0.value}.sorted()
             shortSleeveWhite   = stockDataResponse.ShortSleeveWhite.map{$0.value}.sorted()
             shortSleeveBlack   = stockDataResponse.ShortSleeveBlack.map{$0.value}.sorted()
+            collectionView.dataSource = self
+
         }
         
     }
@@ -102,6 +103,10 @@ class Stocks:UIViewController, UICollectionViewDataSource {
         let menuButton          = UIBarButtonItem(image: SFSymbols.sleep, style: .done, target: self, action:#selector(Logout))
         menuButton.tintColor    = Colours.loginButton
         navigationItem.leftBarButtonItem  = menuButton
+        
+        let reloadButton        = UIBarButtonItem(image: SFSymbols.reload, style: .done, target: self, action:#selector(reloadCollectionView))
+        reloadButton.tintColor    = Colours.loginButton
+        navigationItem.rightBarButtonItem  = reloadButton
         collectionView.delegate   = self
         
     }
@@ -134,7 +139,7 @@ class Stocks:UIViewController, UICollectionViewDataSource {
     
     
     func authorizeSale() -> [Int]{
-        let testValues =  [2110932896, 2110013212, 2109397087, 2107656365, 2107656369, 2106657593, 2106212092, 2106195757, 2104468673, 2103684722, 2101760643]
+//        let testValues =  [2110932896, 2110013212, 2109397087, 2107656365, 2107656369, 2106657593, 2106212092, 2106195757, 2104468673, 2103684722, 2101760643]
         let name = "localTransactionValue"
         let localTransVal = localTransactionValues.object(forKey: name) as! [Int]
         let difference    = requestTransactionValues.difference(from:localTransVal).insertions // returns an array of values that are different in comparison
@@ -189,9 +194,6 @@ class Stocks:UIViewController, UICollectionViewDataSource {
     }
     
     
-    
-    
-    
     func updateAccessories(values:Int) {
         
         let path              = dataResponse.results[values].title
@@ -205,9 +207,7 @@ class Stocks:UIViewController, UICollectionViewDataSource {
             UserService.shared.updateAccessoryStockQuantity(Name: "ClearBag", value: stockDataResponse.ClearBag - quantityPath)
             UserService.shared.updateAccessoryStockQuantity(Name: "PostalBag", value: stockDataResponse.PostalBag - quantityPath)
             UserService.shared.updateAccessoryStockQuantity(Name: "ThermalLabel", value: stockDataResponse.ThermalLabel - quantityPath)
-            
         }
-        
         
         //                    caps
         if path.contains(stockDataResponse.caps) || tagsPath.contains(stockDataResponse.caps){
@@ -217,14 +217,11 @@ class Stocks:UIViewController, UICollectionViewDataSource {
             // set value for ui and database, also set value for masks bag and such
         }
         
-        
         //                    masks
         if path.contains(stockDataResponse.masks) || tagsPath.contains(stockDataResponse.masks) {
             print("This is a mask purchase")
             UserService.shared.updateAccessoryStockQuantity(Name: "Mask", value: stockDataResponse.Mask - quantityPath)
             UserService.shared.updateAccessoryStockQuantity(Name: "MaskPostalBag", value: stockDataResponse.MaskPostalBag - quantityPath)
-            
-            
         }
         
         //                    beanie
@@ -261,11 +258,10 @@ class Stocks:UIViewController, UICollectionViewDataSource {
             UserService.shared.updateAccessoryStockQuantity(Name: "ThermalLabel", value: stockDataResponse.ThermalLabel - quantityPath)
         }
         
-        
         //                    shortSleeveBlackSmall
         if sizePath.contains(stockDataResponse.shortSleeveSmall) && colourPath.contains(stockDataResponse.black) {
             print("This shirt is a shortSleeveSmall black")
-            UserService.shared.updateShirtStockQuantity(Name: "ShortSleeveBlack", small: shortSleeveBlack[2] - quantityPath, medium: shortSleeveBlack[1] , large: shortSleeveBlack[0])
+            UserService.shared.updateShirtStockQuantity(Name: "ShortSleeveBlack", small: shortSleeveBlack[2] - quantityPath, medium: shortSleeveBlack[0] , large: shortSleeveBlack[1])
             compress()
         }
         
@@ -355,20 +351,20 @@ class Stocks:UIViewController, UICollectionViewDataSource {
     
     
     
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        let offsetY       = scrollView.contentOffset.y
-        let contentHeight = scrollView.contentSize.height
-        let height        = scrollView.frame.size.height
-        // the height of our screen
-        
-        if offsetY > contentHeight - height + 200 {
-            getStocks()
-            getData()
-            updateStocks()  
-        }
-        
-        
-    }
+//    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+//        let offsetY       = scrollView.contentOffset.y
+//        let contentHeight = scrollView.contentSize.height
+//        let height        = scrollView.frame.size.height
+//        // the height of our screen
+//
+//        if offsetY > contentHeight - height + 200 {
+//            getStocks()
+//            getData()
+//            updateStocks()
+//        }
+//
+//
+//    }
     
     func createObservers() {
         let name = NSNotification.Name(notificationKeys.reloadCollectionView)

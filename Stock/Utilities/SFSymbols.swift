@@ -13,6 +13,6 @@ import UIKit
 enum SFSymbols {
     static let menuButton      = UIImage(systemName: "text.justify")
     static let sleep           = UIImage(systemName: "moon.zzz")
-
+    static let reload          = UIImage(systemName: "arrow.2.circlepath.circle")
     
 }

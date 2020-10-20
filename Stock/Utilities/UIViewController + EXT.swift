@@ -197,8 +197,8 @@ extension Stocks:UICollectionViewDelegate {
             // These values match the databse indexes so thats why the n umbers vary... note to future self
             //ShortSleeveBlack
             cell.smallLabelValue.text  = String(shortSleeveBlack[2])
-            cell.mediumLabelValue.text = String(shortSleeveBlack[1])
-            cell.LargeLabelValue.text  = String(shortSleeveBlack[0])
+            cell.mediumLabelValue.text = String(shortSleeveBlack[0])
+            cell.LargeLabelValue.text  = String(shortSleeveBlack[1])
             cell.smallLabel.text  = sizes[0]
             cell.mediumLabel.text = sizes[1]
             cell.LargeLabel.text  = sizes[2]
@@ -225,9 +225,9 @@ extension Stocks:UICollectionViewDelegate {
             
         case 2:
             //LongSleeveBlack
-            cell.smallLabelValue.text  = String(longSleeveBlack[1])
+            cell.smallLabelValue.text  = String(longSleeveBlack[0])
             cell.mediumLabelValue.text = String(longSleeveBlack[2])
-            cell.LargeLabelValue.text  = String(longSleeveBlack[0])
+            cell.LargeLabelValue.text  = String(longSleeveBlack[1])
             cell.smallLabel.text  = sizes[0]
             cell.mediumLabel.text = sizes[1]
             cell.LargeLabel.text  = sizes[2]
@@ -360,8 +360,8 @@ extension Stocks:UICollectionViewDelegate {
             // ShortSleeveBlack
             destVC.itemPathName     = stockNameArrayKeys[0]
             destVC.smallLabelValue  = shortSleeveBlack[2]
-            destVC.mediumLabelValue = shortSleeveBlack[1]
-            destVC.largeLabelValue  = shortSleeveBlack[0]
+            destVC.mediumLabelValue = shortSleeveBlack[0]
+            destVC.largeLabelValue  = shortSleeveBlack[1]
         case 1:
             // ShortSleeveWhite
             destVC.itemPathName     = stockNameArrayKeys[2]
@@ -371,9 +371,9 @@ extension Stocks:UICollectionViewDelegate {
         case 2:
             //LongSleeveBlack
             destVC.itemPathName     = stockNameArrayKeys[7]
-            destVC.smallLabelValue  = longSleeveBlack[1]
+            destVC.smallLabelValue  = longSleeveBlack[0]
             destVC.mediumLabelValue = longSleeveBlack[2]
-            destVC.largeLabelValue  = longSleeveBlack[0]
+            destVC.largeLabelValue  = longSleeveBlack[1]
         case 3:
             //LongSleeveWhite
             destVC.itemPathName     = stockNameArrayKeys[3]
