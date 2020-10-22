@@ -20,11 +20,7 @@ class Login:UIViewController {
         return image
     }()
     
-    let loginButton            : Button = {
-        let login = Button(backgroundColour: Colours.loginButton, title: "LOGIN")
-        return login
-    }()
-    
+    let loginButton = Button(backgroundColour: Colours.loginButton, title: "LOGIN")
     let usernameTextField = TextField(placeholderText: "Username", passwordEntry: false, borderColour: Colours.appWhite.cgColor, textColour: Colours.appWhite)
     let passwordTextField = TextField(placeholderText: "Password", passwordEntry: true, borderColour: Colours.appWhite.cgColor, textColour: Colours.appWhite)
     
@@ -38,23 +34,6 @@ class Login:UIViewController {
     
     
     //MARK: - Helpers
-    
-//    func createUser() {
-//        // temp
-//        let email = "tobaibrahim@gmail.com"
-//        let password = "p4098545d36021695"
-//        let username = "toba95"
-//
-//        let credentials = AuthCredentials(email: email, password: password, username: username)
-//        AuthService.shared.registerUser(credentials: credentials) { (error, ref) in
-//            if let error = error {
-//                print(error.localizedDescription)
-//            }
-//    }
-//
-//    }
-    
-    
     
     func configureUI() {
         createDismissKeyboardTapGseture()

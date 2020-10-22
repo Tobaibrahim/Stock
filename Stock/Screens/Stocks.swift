@@ -178,6 +178,11 @@ class Stocks:UIViewController, UICollectionViewDataSource {
     }
     
     
+   
+    
+    // MARK: -  Update Stocks
+    
+    
     func updateStocks() {
         
         for values in authorizeSale() {
@@ -192,7 +197,6 @@ class Stocks:UIViewController, UICollectionViewDataSource {
         }
         
     }
-    
     
     func updateAccessories(values:Int) {
         
@@ -261,7 +265,7 @@ class Stocks:UIViewController, UICollectionViewDataSource {
         //                    shortSleeveBlackSmall
         if sizePath.contains(stockDataResponse.shortSleeveSmall) && colourPath.contains(stockDataResponse.black) {
             print("This shirt is a shortSleeveSmall black")
-            UserService.shared.updateShirtStockQuantity(Name: "ShortSleeveBlack", small: shortSleeveBlack[2] - quantityPath, medium: shortSleeveBlack[0] , large: shortSleeveBlack[1])
+            UserService.shared.updateShirtStockQuantity(Name: "ShortSleeveBlack", small: shortSleeveBlack[2] - quantityPath, medium: shortSleeveBlack[1] , large: shortSleeveBlack[0])
             compress()
         }
         
@@ -350,21 +354,7 @@ class Stocks:UIViewController, UICollectionViewDataSource {
     }
     
     
-    
-//    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-//        let offsetY       = scrollView.contentOffset.y
-//        let contentHeight = scrollView.contentSize.height
-//        let height        = scrollView.frame.size.height
-//        // the height of our screen
-//
-//        if offsetY > contentHeight - height + 200 {
-//            getStocks()
-//            getData()
-//            updateStocks()
-//        }
-//
-//
-//    }
+    // MARK: - Observers and Reload
     
     func createObservers() {
         let name = NSNotification.Name(notificationKeys.reloadCollectionView)
@@ -374,10 +364,7 @@ class Stocks:UIViewController, UICollectionViewDataSource {
     @objc func reloadCollectionView() {
         getStocks()
         getData()
-        updateStocks()
-        DispatchQueue.main.async {
-            self.collectionView.reloadData()
-        }
+      
     }
     
     

@@ -10,6 +10,8 @@ import Foundation
 import SafariServices
 
 
+// MARK: ViewController
+
 extension UIViewController {
     
     func CustomAlertOnMainThread(title:String,message:String,buttonTitle:String) {
@@ -33,26 +35,10 @@ extension UIViewController {
     
 }
 
-extension UIView {
-    
-    func addNotification() {
-        let _: UIView = {
-            let circle = UIView()
-            circle.translatesAutoresizingMaskIntoConstraints = false
-            circle.backgroundColor = .red
-            //            circle.frame = CGRect(x: 50, y: 30, width: 30, height: 30)
-            circle.layer.cornerRadius = 20 / 2
-            NSLayoutConstraint.activate([
-                circle.widthAnchor.constraint(equalToConstant: 20),
-                circle.heightAnchor.constraint(equalToConstant: 20),
-                
-            ])
-            return circle
-        }()
-        
-        
-    }
-}
+
+
+
+// MARK: UIImageView
 
 extension UIImageView {
     
@@ -69,6 +55,7 @@ extension UIImageView {
     }
 }
 
+// MARK: String
 
 extension String {
     func deletingPrefix(_ prefix: String) -> String {
@@ -77,8 +64,10 @@ extension String {
     }
 }
 
+// MARK: UIView
 
 extension UIView {
+    
     
     func anchor(top: NSLayoutYAxisAnchor? = nil,
                 leading: NSLayoutXAxisAnchor? = nil,
@@ -155,9 +144,26 @@ extension UIView {
                bottom: view.bottomAnchor, trailing: view.rightAnchor)
     }
     
-    
+    func addNotification() {
+           let _: UIView = {
+               let circle = UIView()
+               circle.translatesAutoresizingMaskIntoConstraints = false
+               circle.backgroundColor = .red
+               //            circle.frame = CGRect(x: 50, y: 30, width: 30, height: 30)
+               circle.layer.cornerRadius = 20 / 2
+               NSLayoutConstraint.activate([
+                   circle.widthAnchor.constraint(equalToConstant: 20),
+                   circle.heightAnchor.constraint(equalToConstant: 20),
+                   
+               ])
+               return circle
+           }()
+           
+           
+       }
     
 }
+// MARK: Array
 
 extension Array {
     subscript (safe index: Int) -> Element? {
@@ -165,6 +171,7 @@ extension Array {
     }
 }
 
+// MARK: CollectionView
 
 
 extension Stocks:UICollectionViewDelegate {
@@ -197,8 +204,8 @@ extension Stocks:UICollectionViewDelegate {
             // These values match the databse indexes so thats why the n umbers vary... note to future self
             //ShortSleeveBlack
             cell.smallLabelValue.text  = String(shortSleeveBlack[2])
-            cell.mediumLabelValue.text = String(shortSleeveBlack[0])
-            cell.LargeLabelValue.text  = String(shortSleeveBlack[1])
+            cell.mediumLabelValue.text = String(shortSleeveBlack[1])
+            cell.LargeLabelValue.text  = String(shortSleeveBlack[0])
             cell.smallLabel.text  = sizes[0]
             cell.mediumLabel.text = sizes[1]
             cell.LargeLabel.text  = sizes[2]
@@ -360,8 +367,8 @@ extension Stocks:UICollectionViewDelegate {
             // ShortSleeveBlack
             destVC.itemPathName     = stockNameArrayKeys[0]
             destVC.smallLabelValue  = shortSleeveBlack[2]
-            destVC.mediumLabelValue = shortSleeveBlack[0]
-            destVC.largeLabelValue  = shortSleeveBlack[1]
+            destVC.mediumLabelValue = shortSleeveBlack[1]
+            destVC.largeLabelValue  = shortSleeveBlack[0]
         case 1:
             // ShortSleeveWhite
             destVC.itemPathName     = stockNameArrayKeys[2]

@@ -14,6 +14,8 @@ class EditStocks:UIViewController {
     
     //MARK: - Properties
     
+    // REFACTOR ALL
+    
     var backgroundColour:UIColor!
     var itemImageName:String!
     var itemPathName:String! // name of the item path to firebase child value
