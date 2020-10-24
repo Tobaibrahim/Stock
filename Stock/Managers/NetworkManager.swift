@@ -14,11 +14,11 @@ class NetworkManager {
     static let shared     = NetworkManager()
     let cache             = NSCache<NSString,UIImage>()
     private let baseURL   = "https://openapi.etsy.com/v2/"
-    let key               = ""
-    let secret            = ""
-    var oauthToken        = ""
-    var oauthTokenSecret  = ""
-    var ouathVerifier     = ""
+    let key               = "ej72ztgt3p04ddxrbuil4ixz"
+    let secret            = "o51lx5449g"
+    var oauthToken        = "64b53208101e4aeb4e840d0f1eccca"
+    var oauthTokenSecret  = "8fb89d2ce8"
+    var ouathVerifier     = "f699a4b8"
     private init () {}
     
     

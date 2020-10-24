@@ -36,13 +36,25 @@ class Stocks:UIViewController, UICollectionViewDataSource {
     var stockDataResponse: StockQuantityViewModel! {
         didSet {
             print("DATA STOCK RESPONSE SET")
-            //            updateStocks() // timing issue index crash
-            longSleeveBlack    = stockDataResponse.LongSleeveBlack.map{$0.value}.sorted()
-            longSleeveWhite    = stockDataResponse.LongSleeveWhite.map{$0.value}.sorted()
-            shortSleeveWhite   = stockDataResponse.ShortSleeveWhite.map{$0.value}.sorted()
-            shortSleeveBlack   = stockDataResponse.ShortSleeveBlack.map{$0.value}.sorted()
+            
+            for (_,v) in (Array(stockDataResponse.LongSleeveBlack).sorted {$0.key < $1.key}) {
+                longSleeveBlack.append(v)
+            }
+            
+            for (_,v) in (Array(stockDataResponse.LongSleeveWhite).sorted {$0.key < $1.key}) {
+                longSleeveWhite.append(v)
+            }
+            
+            for (_,v) in (Array(stockDataResponse.ShortSleeveWhite).sorted {$0.key < $1.key}) {
+                shortSleeveWhite.append(v)
+            }
+            
+            for (_,v) in (Array(stockDataResponse.ShortSleeveBlack).sorted {$0.key < $1.key}) {
+                shortSleeveBlack.append(v)
+            }
+            
             collectionView.dataSource = self
-
+ 
         }
         
     }
@@ -62,6 +74,7 @@ class Stocks:UIViewController, UICollectionViewDataSource {
     let localTransactionValues = UserDefaults.standard
     var requestTransactionValues = [Int]()
     var valuesChanged = false
+    
     var longSleeveBlack  = [Int]()
     var longSleeveWhite  = [Int]()
     var shortSleeveWhite = [Int]()
@@ -119,7 +132,8 @@ class Stocks:UIViewController, UICollectionViewDataSource {
     
     
     func getData() {
-        NetworkManager.shared.testRequestOne { (result) in
+        NetworkManager.shared.testRequestOne {[weak self] (result) in
+            guard let self = self else {return}
             switch result{
             case.success(let value):
                 self.dataResponse = value
@@ -132,14 +146,15 @@ class Stocks:UIViewController, UICollectionViewDataSource {
     }
     
     func getStocks() {
-        UserService.shared.fetchStockQuantity { (result,keys)  in
+        UserService.shared.fetchStockQuantity { [weak self](result,keys)  in
+            guard let self = self else {return}
             self.stockDataResponse  = StockQuantityViewModel.init(stockQuantity: result)
             self.stockNameArrayKeys = keys
         }}
     
     
     func authorizeSale() -> [Int]{
-//        let testValues =  [2110932896, 2110013212, 2109397087, 2107656365, 2107656369, 2106657593, 2106212092, 2106195757, 2104468673, 2103684722, 2101760643]
+
         let name = "localTransactionValue"
         let localTransVal = localTransactionValues.object(forKey: name) as! [Int]
         let difference    = requestTransactionValues.difference(from:localTransVal).insertions // returns an array of values that are different in comparison
@@ -157,7 +172,7 @@ class Stocks:UIViewController, UICollectionViewDataSource {
                 else {
                     print("DEBUG: VALUES CHANGED")
                     changedIndex.append(offset)
-                    //                    completion(changedIndex)
+                    //completion(changedIndex)
                     
                     localTransactionValues.set(requestTransactionValues, forKey: name) // set new local value if values have changed
                 }
@@ -362,6 +377,11 @@ class Stocks:UIViewController, UICollectionViewDataSource {
     }
     
     @objc func reloadCollectionView() {
+        // beause Im appending to the array I need to remove the current values from the array.
+        longSleeveBlack.removeAll()
+        longSleeveWhite.removeAll()
+        shortSleeveWhite.removeAll()
+        shortSleeveBlack.removeAll()
         getStocks()
         getData()
       

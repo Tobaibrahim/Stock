@@ -218,9 +218,9 @@ extension Stocks:UICollectionViewDelegate {
             
         case 1:
             //ShortSleeveWhite
-            cell.smallLabelValue.text  = String(shortSleeveWhite[0])
-            cell.mediumLabelValue.text = String(shortSleeveWhite[2])
-            cell.LargeLabelValue.text  = String(shortSleeveWhite[1])
+            cell.smallLabelValue.text  = String(shortSleeveWhite[2])
+            cell.mediumLabelValue.text = String(shortSleeveWhite[1])
+            cell.LargeLabelValue.text  = String(shortSleeveWhite[0])
             cell.smallLabel.text  = sizes[0]
             cell.mediumLabel.text = sizes[1]
             cell.LargeLabel.text  = sizes[2]
@@ -232,9 +232,9 @@ extension Stocks:UICollectionViewDelegate {
             
         case 2:
             //LongSleeveBlack
-            cell.smallLabelValue.text  = String(longSleeveBlack[0])
-            cell.mediumLabelValue.text = String(longSleeveBlack[2])
-            cell.LargeLabelValue.text  = String(longSleeveBlack[1])
+            cell.smallLabelValue.text  = String(longSleeveBlack[2])
+            cell.mediumLabelValue.text = String(longSleeveBlack[1])
+            cell.LargeLabelValue.text  = String(longSleeveBlack[0])
             cell.smallLabel.text  = sizes[0]
             cell.mediumLabel.text = sizes[1]
             cell.LargeLabel.text  = sizes[2]
@@ -246,9 +246,9 @@ extension Stocks:UICollectionViewDelegate {
         case 3:
             
             //LongSleeveWhite
-            cell.smallLabelValue.text  = String(longSleeveWhite[0])
+            cell.smallLabelValue.text  = String(longSleeveWhite[2])
             cell.mediumLabelValue.text = String(longSleeveWhite[1])
-            cell.LargeLabelValue.text  = String(longSleeveWhite[2])
+            cell.LargeLabelValue.text  = String(longSleeveWhite[0])
             cell.smallLabel.text  = sizes[0]
             cell.mediumLabel.text = sizes[1]
             cell.LargeLabel.text  = sizes[2]
@@ -372,21 +372,21 @@ extension Stocks:UICollectionViewDelegate {
         case 1:
             // ShortSleeveWhite
             destVC.itemPathName     = stockNameArrayKeys[2]
-            destVC.smallLabelValue  = shortSleeveWhite[0]
-            destVC.mediumLabelValue = shortSleeveWhite[2]
-            destVC.largeLabelValue  = shortSleeveWhite[1]
+            destVC.smallLabelValue  = shortSleeveWhite[2]
+            destVC.mediumLabelValue = shortSleeveWhite[1]
+            destVC.largeLabelValue  = shortSleeveWhite[0]
         case 2:
             //LongSleeveBlack
             destVC.itemPathName     = stockNameArrayKeys[7]
-            destVC.smallLabelValue  = longSleeveBlack[0]
-            destVC.mediumLabelValue = longSleeveBlack[2]
-            destVC.largeLabelValue  = longSleeveBlack[1]
+            destVC.smallLabelValue  = longSleeveBlack[2]
+            destVC.mediumLabelValue = longSleeveBlack[1]
+            destVC.largeLabelValue  = longSleeveBlack[0]
         case 3:
             //LongSleeveWhite
             destVC.itemPathName     = stockNameArrayKeys[3]
-            destVC.smallLabelValue  = longSleeveWhite[0]
+            destVC.smallLabelValue  = longSleeveWhite[2]
             destVC.mediumLabelValue = longSleeveWhite[1]
-            destVC.largeLabelValue  = longSleeveWhite[2]
+            destVC.largeLabelValue  = longSleeveWhite[0]
         case 4:
             //Beanie
             destVC.itemPathName     = stockNameArrayKeys[9]

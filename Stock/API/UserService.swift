@@ -17,7 +17,7 @@ struct UserService {
     
 
     func fetchStockQuantity(completion: @escaping(StockQuantity,[String]) -> Void) {
-        ref.child("shirts").observeSingleEvent(of: .value) { (snapshot) in
+        ref.child("shirts").observeSingleEvent(of: .value) {(snapshot) in
             guard let dictionary    = snapshot.value as? [String:AnyObject] else {return}
             let snapshopValue       = snapshot.value as? NSDictionary
             let value = StockQuantity(dictionary: dictionary)
