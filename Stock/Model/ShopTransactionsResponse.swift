@@ -27,6 +27,7 @@ struct ShopTransactions:Decodable {
     let paidTsz:Int
     let receiptId: Int
     let transactionId:Int
+    let shippingCost:String
     
 }
 

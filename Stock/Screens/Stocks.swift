@@ -20,7 +20,7 @@ class Stocks:UIViewController, UICollectionViewDataSource {
     var dataResponse: ShopTransactionsResponse! {
         didSet {
             print("DATA RESPONSE SET")
-            guard let safeResponse   = dataResponse.map({$0.results[0...12].map{$0.transactionId}}) else {return} // get transaction value from request
+            guard let safeResponse   = dataResponse.map({$0.results[0...15].map{$0.transactionId}}) else {return} // get transaction value from request
             requestTransactionValues = safeResponse
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
@@ -75,8 +75,6 @@ class Stocks:UIViewController, UICollectionViewDataSource {
     var longSleeveWhite  = [Int]()
     var shortSleeveWhite = [Int]()
     var shortSleeveBlack = [Int]()
-    
-    
     
     
     //MARK: - LifeCycle
@@ -175,8 +173,6 @@ class Stocks:UIViewController, UICollectionViewDataSource {
             case .remove(offset:_ , element: _, associatedWith:_):
                 break
             }
-            
-            
         }
         
         
@@ -208,12 +204,14 @@ class Stocks:UIViewController, UICollectionViewDataSource {
         
     }
     
+    
     func updateAccessories(values:Int) {
         
         let path              = dataResponse.results[values].title
         let quantityPath      = dataResponse.results[values].quantity
         let tagsPath          = dataResponse.results[values].tags
         let pricePath         = dataResponse.results[values].price
+        let shippingCostPath  = dataResponse.results[values].shippingCost
         
         print("DEBUG: price  = \(pricePath)")
         
@@ -221,7 +219,17 @@ class Stocks:UIViewController, UICollectionViewDataSource {
             UserService.shared.updateAccessoryStockQuantity(Name: "ClearBag", value: stockDataResponse.ClearBag - quantityPath)
             UserService.shared.updateAccessoryStockQuantity(Name: "PostalBag", value: stockDataResponse.PostalBag - quantityPath)
             UserService.shared.updateAccessoryStockQuantity(Name: "ThermalLabel", value: stockDataResponse.ThermalLabel - quantityPath)
+            
+            if Double(shippingCostPath) == 0.00 { // checking if the order is tracked
+                UserService.shared.updateAccessoryStockQuantity(Name:"CustomsForm", value: stockDataResponse.CustomsForm - quantityPath)
+
+            }
+            else {
+                UserService.shared.updateAccessoryStockQuantity(Name:"CustomsFormTracked", value: stockDataResponse.CustomsFormTracked - quantityPath)
+            }
         }
+        
+       
         
         //                    caps
         if path.contains(stockDataResponse.caps) || tagsPath.contains(stockDataResponse.caps){
@@ -236,6 +244,14 @@ class Stocks:UIViewController, UICollectionViewDataSource {
             print("This is a mask purchase")
             UserService.shared.updateAccessoryStockQuantity(Name: "Mask", value: stockDataResponse.Mask - quantityPath)
             UserService.shared.updateAccessoryStockQuantity(Name: "MaskPostalBag", value: stockDataResponse.MaskPostalBag - quantityPath)
+            UserService.shared.updateAccessoryStockQuantity(Name: "ThermalLabel", value: stockDataResponse.ThermalLabel - quantityPath)
+            if Double(shippingCostPath) == 0.00 {
+                UserService.shared.updateAccessoryStockQuantity(Name:"CustomsForm", value: stockDataResponse.CustomsForm - quantityPath)
+            }
+            else {
+                UserService.shared.updateAccessoryStockQuantity(Name: "CustomsFormTracked", value: stockDataResponse.CustomsFormTracked - quantityPath)
+            }
+            
         }
         
         //                    beanie
@@ -263,13 +279,22 @@ class Stocks:UIViewController, UICollectionViewDataSource {
         guard let sizePath    = dataResponse.results[values].variations[safe:0]?.formattedValue else {return}   // fix the index crashing
         guard let colourPath  = dataResponse.results[values].variations[safe:1]?.formattedValue else {return} // fix index crashing
         let quantityPath      = dataResponse.results[values].quantity
-        let pricePath        = dataResponse.results[values].price
+        let pricePath         = dataResponse.results[values].price
+        let shippingCostPath  = dataResponse.results[values].shippingCost
+
         print("DEBUG: price  = \(pricePath)")
         
         func compress() {
             UserService.shared.updateAccessoryStockQuantity(Name: "ClearBag", value: stockDataResponse.ClearBag - quantityPath)
             UserService.shared.updateAccessoryStockQuantity(Name: "PostalBag", value: stockDataResponse.PostalBag - quantityPath)
             UserService.shared.updateAccessoryStockQuantity(Name: "ThermalLabel", value: stockDataResponse.ThermalLabel - quantityPath)
+            if Double(shippingCostPath) == 0.00 {
+                UserService.shared.updateAccessoryStockQuantity(Name:"CustomsForm", value: stockDataResponse.CustomsForm - quantityPath)
+
+            }
+            else {
+                UserService.shared.updateAccessoryStockQuantity(Name: "CustomsFormTracked", value: stockDataResponse.CustomsFormTracked - quantityPath)
+            }
         }
         
         //                    shortSleeveBlackSmall
