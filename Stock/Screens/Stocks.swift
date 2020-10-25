@@ -50,7 +50,7 @@ class Stocks:UIViewController, UICollectionViewDataSource {
                 shortSleeveBlack.append(v)
             }
             collectionView.dataSource = self
- 
+            view.removeBlurLoader()
         }
         
     }
@@ -398,6 +398,7 @@ class Stocks:UIViewController, UICollectionViewDataSource {
     
     @objc func reloadCollectionView() {
         // beause Im appending to the array I need to remove the current values from the array when I reload the collection view after stock updates
+        view.showBlurLoader()
         longSleeveBlack.removeAll()
         longSleeveWhite.removeAll()
         shortSleeveWhite.removeAll()
